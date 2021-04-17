@@ -2,8 +2,6 @@
   margin: 0; /*сброшены заданные браузером внешние отступы*/
   line-height: 79px;
   color: #000;
-  font-size: 24px;
-  font-weight: 900;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
