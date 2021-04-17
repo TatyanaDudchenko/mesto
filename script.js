@@ -41,8 +41,8 @@ function formSubmitHandler (evt) {
     let jobInput = document.querySelector('#inp_2');
 
     // Выбираем элементы, куда должны быть вставлены значения полей
-    let profileName = document.querySelector('.profile__info-group_name');
-    let profileJob = document.querySelector('.profile__info-group_job');
+    let profileName = document.querySelector('.profile__name');
+    let profileJob = document.querySelector('.profile__job');
 
     // Вставляем новые значения с помощью textContent
     profileName.textContent = nameInput.value;

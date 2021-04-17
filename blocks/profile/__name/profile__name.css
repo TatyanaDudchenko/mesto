@@ -1,16 +1,15 @@
-.profile__info-group_job {
+.profile__name {
   margin: 0; /*сброшены заданные браузером внешние отступы*/
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  padding-top: 16px;
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 919px) {
-  .profile__info-group_job {
-    padding-top: 14px;
-    font-size: 14px;
+  .profile__name {
+    font-size: 27px;
   }
 }
