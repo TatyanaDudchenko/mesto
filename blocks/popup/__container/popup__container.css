@@ -1,0 +1,26 @@
+.popup__container {
+  width: 430px;
+  min-height: 330px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -165px; /*отрицательная половина высоты блока*/
+  margin-left: -215px; /*отрицательная половина ширины блока*/
+  background-color: #fff;
+  border-radius: 10px;
+  padding-left: 36px;
+  padding-right: 36px;
+  padding-top: 34px;
+  padding-bottom: 37px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 620px) {
+  .popup__container {
+    width: 282px;
+    min-height: 322px;
+    padding: 25px 22px;
+    margin-top: -161px; /*отрицательная половина высоты блока*/
+    margin-left: -141px; /*отрицательная половина ширины блока*/
+  }
+}

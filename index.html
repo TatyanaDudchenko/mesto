@@ -7,75 +7,88 @@
     <link rel="stylesheet" href="pages/index.css">
   </head>
   <body class="page">
-      <header class="header">
+    <header class="header">
         <img class="header__logo" src="images/header-logo.svg" alt="Логотип Mesto Russia">
-      </header>
+    </header>
 
-      <main class="content">
+    <main class="content">
 
-        <section class="profile-container">
-          <article class="profile">
-            <img class="profile__avatar" src="images/avatar-kusto.png" alt="Аватар">
-            <div class="profile__info-container">
-              <div class="profile__info-group">
-                <h1 class="profile__info_name">Жак-Ив Кусто</h1>
-                <p class="profile__info_profession">Исследователь океана</p>
-              </div>
-              <button class="button-edit"></button>
+      <section class="profile-container">
+        <article class="profile">
+          <img class="profile__avatar" src="images/avatar-kusto.png" alt="Аватар">
+          <div class="profile__info-container">
+            <div class="profile__info-group">
+              <h1 class="profile__info-group_name">Жак-Ив Кусто</h1>
+              <h2 class="profile__info-group_job">Исследователь океана</h2>
             </div>
-          </article>
-          <button class="button-add"></button>
-        </section>
+            <button class="profile__button-edit"></button>
+          </div>
+        </article>
+        <button class="profile-container__button-add"></button>
+      </section>
 
-        <section class="gallery">
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
-          <article class="card">
-            <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
-            <div class="card__description">
-              <p class="card__text">Морская звезда</p>
-              <button class="card__button-like"></button>
-            </div>
-          </article>
+      <section class="gallery">
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
+          <figcaption class="card__description">
+            <h2 class="card__text">Морская звезда</h2>
+            <button class="card__icon-like"></button>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-fish.jfif" alt="Рыбы">
+          <figcaption class="card__description">
+            <h2 class="card__text">Рыбы</h2>
+            <button class="card__icon-like"></button>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-jellyfish.jfif" alt="Медуза">
+          <figcaption class="card__description">
+          <h2 class="card__text">Медуза</h2>
+            <button class="card__icon-like"></button>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-coral.jfif" alt="Кораллы">
+          <figcaption class="card__description">
+            <h2 class="card__text">Кораллы</h2>
+            <button class="card__icon-like"></button>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-nature.jfif" alt="Природа">
+          <figcaption class="card__description">
+            <h2 class="card__text">Природа</h2>
+            <button class="card__icon-like"></button>
+          </figcaption>
+        </figure>
+        <figure class="card">
+          <img class="card__image" src="images/photo-grid-turtle.jfif" alt="Черепаха">
+          <figcaption class="card__description">
+            <h2 class="card__text">Черепаха</h2>
+            <button class="card__icon-like card__icon-like_active"></button>
+          </figcaption>
+        </figure>
 
-        </section>
+      </section>
 
-      </main>
+    </main>
 
-      <footer class="footer">
-        <p class="footer__author">&copy; 2021 Mesto Russia</p>
-      </footer>
+    <footer class="footer">
+      <p class="footer__author">&copy; 2021 Mesto Russia</p>
+    </footer>
+
+    <div class="popup popup_type_edit">
+      <button class="popup__icon-close"></button>
+      <form class="popup__container">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <input type="text" placeholder="Имя" class="popup__input popup__input_name" id="inp_1">
+        <input type="text" placeholder="О себе" class="popup__input popup__input_job" id="inp_2">
+        <button type="submit" value="Сохранить" class="popup__button-save">Сохранить</button>
+      </form>
+    </div>
+
+    <script src="script.js"></script>
   </body>
+</html>

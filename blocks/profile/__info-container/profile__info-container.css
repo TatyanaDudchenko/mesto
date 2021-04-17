@@ -1,0 +1,11 @@
+.profile__info-container {
+  padding-left: 30px;
+  display: flex;
+  align-items: baseline;
+}
+
+@media screen and (max-width: 919px) {
+  .profile__info-container {
+    padding-left: 28px; /*чтобы не нарушилась отцентровка, компенсированы отступ перед кнопкой редактирования 10px и ширина самой кнопки 18px*/
+  }
+}

@@ -1,0 +1,15 @@
+.profile__info-group_name {
+  margin: 0; /*сброшены заданные браузером внешние отступы*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 919px) {
+  .profile__info-group_name {
+    font-size: 27px;
+  }
+}

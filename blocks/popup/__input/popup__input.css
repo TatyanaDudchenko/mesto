@@ -1,0 +1,15 @@
+.popup__input {
+  min-width: 100%;
+  min-height: 27px;
+  padding-top: 0; /*сброшены заданные браузером внутренние отступы*/
+  padding-left: 0; /*сброшены заданные браузером внутренние отступы*/
+  padding-right: 0; /*сброшены заданные браузером внутренние отступы*/
+  padding-bottom: 13px;
+  border-top: none; /*сброшены заданные браузером границы*/
+  border-left: none; /*сброшены заданные браузером границы*/
+  border-right: none; /*сброшены заданные браузером границы*/
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
+}

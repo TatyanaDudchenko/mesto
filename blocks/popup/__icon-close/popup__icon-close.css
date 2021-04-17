@@ -1,0 +1,30 @@
+.popup__icon-close {
+  width: 40px;
+  height: 40px;
+  border: none; /*сброшены заданные браузером границы*/
+  padding: 0; /*сброшены заданные браузером внутренние отступы*/
+  background-image: url(../../../images/icon-close.svg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  background-color: inherit;
+  cursor: pointer;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-top: -213px; /*отрицательная половина высоты попап-контейнера плюс отриц.высота самой иконки плюс отриц.отступ от попап-контейнера*/
+  margin-left: 223px; /*отрицательная половина ширины попап-контейнера плюс отриц.отступ от попап-контейнера*/
+}
+
+.popup__icon-close:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 620px) {
+  .popup__icon-close {
+    width: 26px;
+    height: 26px;
+    margin-top: -200.5px; /*отрицательная половина высоты попап-контейнера плюс отриц.высота самой иконки плюс отриц.отступ от попап-контейнера*/
+    margin-left: 115px; /*отрицательная половина ширины попап-контейнера минус ширина самой иконки*/
+  }
+}
