@@ -9,6 +9,7 @@
   background-color: inherit;
   padding: 0; /*сброшены заданные браузером внутренние отступы*/
   cursor: pointer;
+  transition: 0.6s ease-in-out;
 }
 
 .profile__button-edit:hover {

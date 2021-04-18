@@ -21,10 +21,10 @@
               <h1 class="profile__name">Жак-Ив Кусто</h1>
               <h2 class="profile__job">Исследователь океана</h2>
             </div>
-            <button class="profile__button-edit"></button>
+            <button type="submit" class="profile__button-edit"></button>
           </div>
         </article>
-        <button class="profile-container__button-add"></button>
+        <button type="button" class="profile-container__button-add"></button>
       </section>
 
       <section class="gallery">
@@ -32,42 +32,42 @@
           <img class="card__image" src="images/photo-grid-starfish.jpg" alt="Морская звезда">
           <figcaption class="card__description">
             <h2 class="card__text">Морская звезда</h2>
-            <button class="card__icon-like"></button>
+            <button type="button" class="card__icon-like"></button>
           </figcaption>
         </figure>
         <figure class="card">
           <img class="card__image" src="images/photo-grid-fish.jfif" alt="Рыбы">
           <figcaption class="card__description">
             <h2 class="card__text">Рыбы</h2>
-            <button class="card__icon-like"></button>
+            <button type="button" class="card__icon-like"></button>
           </figcaption>
         </figure>
         <figure class="card">
           <img class="card__image" src="images/photo-grid-jellyfish.jfif" alt="Медуза">
           <figcaption class="card__description">
           <h2 class="card__text">Медуза</h2>
-            <button class="card__icon-like"></button>
+            <button type="button" class="card__icon-like"></button>
           </figcaption>
         </figure>
         <figure class="card">
           <img class="card__image" src="images/photo-grid-coral.jfif" alt="Кораллы">
           <figcaption class="card__description">
             <h2 class="card__text">Кораллы</h2>
-            <button class="card__icon-like"></button>
+            <button type="button" class="card__icon-like"></button>
           </figcaption>
         </figure>
         <figure class="card">
           <img class="card__image" src="images/photo-grid-nature.jfif" alt="Природа">
           <figcaption class="card__description">
             <h2 class="card__text">Природа</h2>
-            <button class="card__icon-like"></button>
+            <button type="button" class="card__icon-like"></button>
           </figcaption>
         </figure>
         <figure class="card">
           <img class="card__image" src="images/photo-grid-turtle.jfif" alt="Черепаха">
           <figcaption class="card__description">
             <h2 class="card__text">Черепаха</h2>
-            <button class="card__icon-like card__icon-like_active"></button>
+            <button type="button" class="card__icon-like card__icon-like_active"></button>
           </figcaption>
         </figure>
 
@@ -80,15 +80,19 @@
     </footer>
 
     <div class="popup popup_type_edit">
-      <button class="popup__icon-close"></button>
-      <form class="popup__container">
+      <div class="popup__container">
+        <div class="button-overlay"> <!-- для создания эффекта перекрытия, чтобы белый фон контейнера не влиял на отображение кнопки -->
+          <button type="button" class="popup__icon-close"></button>
+        </div>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <input type="text" placeholder="Имя" class="popup__input popup__input_name" id="inp_1">
-        <input type="text" placeholder="О себе" class="popup__input popup__input_job" id="inp_2">
-        <button type="submit" value="Сохранить" class="popup__button-save">Сохранить</button>
-      </form>
+        <form name="editForm" class="popup__form-edit">
+          <input type="text" placeholder="Имя" name="name" class="popup__input popup__input_name" value="Жак-Ив Кусто">
+          <input type="text" placeholder="О себе" name="job" class="popup__input popup__input_job" value="Исследователь океана">
+          <button type="submit" value="Сохранить" class="popup__button-save">Сохранить</button>
+        </form>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
   </body>
 </html>

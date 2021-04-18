@@ -1,5 +1,6 @@
 .popup__input {
-  min-width: 100%;
+  max-width: 100%;
+  width: 100%;
   min-height: 27px;
   padding-top: 0; /*сброшены заданные браузером внутренние отступы*/
   padding-left: 0; /*сброшены заданные браузером внутренние отступы*/
@@ -12,4 +13,17 @@
   color: #000;
   font-size: 14px;
   font-weight: 400;
+}
+
+.popup__input:first-of-type {
+  margin-top: 54px;
+}
+
+.popup__input:last-of-type {
+  margin-top: 30px;
+}
+
+@media screen and (max-width: 620px) {
+  .popup__input:first-of-type {
+    margin-top: 75px;
 }

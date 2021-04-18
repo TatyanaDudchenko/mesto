@@ -29,22 +29,18 @@ let formPopup = editPopup.querySelector('.popup__container');
 // Выбираем поле редактирования ввода Имя
 let nameInput = formPopup.querySelector('.popup__input_name');
 
-// // Выбираем поле редактирования ввода Деятельность
+// Выбираем поле редактирования ввода Деятельность
 let jobInput = formPopup.querySelector('.popup__input_job');
 
 // Обработчик «отправки» формы
 function formSubmitHandler (evt) {
   evt.preventDefault();
 
-    // Получаем значения полей jobInput и nameInput из свойства value
-    let nameInput = document.querySelector('#inp_1');
-    let jobInput = document.querySelector('#inp_2');
-
     // Выбираем элементы, куда должны быть вставлены значения полей
     let profileName = document.querySelector('.profile__name');
     let profileJob = document.querySelector('.profile__job');
 
-    // Вставляем новые значения с помощью textContent
+    // Вставляем новые значения из полей ввода на страницу с помощью textContent
     profileName.textContent = nameInput.value;
     profileJob.textContent = jobInput.value;
 
@@ -53,9 +49,3 @@ function formSubmitHandler (evt) {
 }
 
 formPopup.addEventListener('submit', formSubmitHandler);
-
-// Выбираем кнопку Сохранить
-let saveEditFormPopupButton = editPopup.querySelector('.popup__button-save');
-
-//Запускаем функцию Обработчик по клику кнопки Сохранить
-saveEditFormPopupButton.addEventListener('click', formSubmitHandler);
