@@ -13,14 +13,15 @@
   color: #000;
   font-size: 14px;
   font-weight: 400;
+  margin-top: 30px;
+  /*ниже следующими тремя строками правил реализовано переполнение блока как троеточие*/
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .popup__input:first-of-type {
   margin-top: 54px;
-}
-
-.popup__input:last-of-type {
-  margin-top: 30px;
 }
 
 @media screen and (max-width: 620px) {
