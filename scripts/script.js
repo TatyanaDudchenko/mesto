@@ -40,12 +40,43 @@ initialCards.forEach(item => {
   const cardImage = card.querySelector('.card__image');
   cardImage.src = item.link;
 
+  // Выбираем в карточке место для альтернативного текста и заполняем его данными из массива
+  const cardAlt = card.querySelector('.card__image');
+  cardAlt.alt = item.name;
+
   // Выбираем в карточке место для заголовка и заполняем его данными из массива
   const cardTitle = card.querySelector('.card__text');
   cardTitle.textContent = item.name;
 
   // Заполняем галерею карточками
   gallery.append(card);
+
+
+
+  // Обработчики на кнопки карточки
+  // Выбираем в карточке элемент кнопка Лайк
+  const likeButton = card.querySelector('.card__icon-like');
+
+  // Функция Лайк
+  function like() {
+    likeButton.classList.toggle('card__icon-like_active');
+  };
+
+  //Запускаем функцию Лайк
+  likeButton.addEventListener('click', like);
+
+
+  // Выбираем в карточке элемент кнопка Урна
+  const trashButton = card.querySelector('.card__icon-trash');
+
+  // Функция Удаление карточки
+  function removeCard() {
+    card.remove();
+  };
+
+  //Запускаем функцию Удаление карточки
+  trashButton.addEventListener('click', removeCard);
+
 });
 
 
@@ -141,11 +172,38 @@ function newCardFormSubmitHandler (evt) {
     cardImage.src = linkInput.value;
     cardTitle.textContent = titleInput.value;
 
-    // Вставляем в гаререю новую карточку
-    gallery.prepend(newCard); //исправить на "в начало"
+    // Вставляем в галерею новую карточку
+    gallery.prepend(newCard);
 
     //Вызываем функцию закрытия попапа добавления
     closeAddPopup();
-}
+
+    // Обработчики на кнопки карточки
+    // Выбираем в карточке элемент кнопка Лайк
+    const likeButton = newCard.querySelector('.card__icon-like');
+
+    // Функция Лайк
+    function like() {
+      likeButton.classList.toggle('card__icon-like_active');
+    };
+
+    //Запускаем функцию Лайк
+    likeButton.addEventListener('click', like);
+
+    // Выбираем в карточке элемент кнопка Урна
+    const trashButton = newCard.querySelector('.card__icon-trash');
+
+    // Функция Удаление карточки
+    function removeCard() {
+      newCard.remove();
+    };
+
+    //Запускаем функцию Удаление карточки
+    trashButton.addEventListener('click', removeCard);
+
+    };
 
 formAddPopup.addEventListener('submit', newCardFormSubmitHandler);
+
+
+
