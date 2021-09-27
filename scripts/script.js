@@ -100,6 +100,9 @@ initialCards.forEach(item => {
     // Выбираем в попапе место для подписи картинки и заполняем его данными из карточки
     const imagePopupDescription = imagePopup.querySelector('.card__image-opened-description');
     imagePopupDescription.textContent = item.name;
+    // Выбираем в попапе место для альтернативного текста картинки и заполняем его данными из карточки
+    const imagePopupImageAlt = imagePopup.querySelector('.card__image-opened');
+    imagePopupImageAlt.alt = item.name;
     //Вызываем функцию открытия попапа Просмотр картинки
     openImagePopup();
   }
@@ -194,10 +197,12 @@ evt.preventDefault();
   // Выбираем элементы карточки, куда должны быть вставлены значения полей
   const cardImage = newCard.querySelector('.card__image');
   const cardTitle = newCard.querySelector('.card__text');
+  const cardImageAlt = newCard.querySelector('.card__image');
 
   // Вставляем новые значения из полей ввода в новую карточку
   cardImage.src = linkInput.value;
   cardTitle.textContent = titleInput.value;
+  cardImageAlt.alt = titleInput.value;
 
   // Вставляем в галерею новую карточку
   gallery.prepend(newCard);
@@ -245,6 +250,10 @@ evt.preventDefault();
     // Выбираем в попапе место для подписи картинки и заполняем его данными из карточки
     const imagePopupDescription = imagePopup.querySelector('.card__image-opened-description');
     imagePopupDescription.textContent = titleInput.value;
+
+    // Выбираем в попапе место для альтернативного текста и заполняем его данными из карточки
+    const imagePopupImageAlt = imagePopup.querySelector('.card__image-opened');
+    imagePopupImageAlt.alt = titleInput.value;
 
     //Вызываем функцию открытия попапа Просмотр картинки
     openImagePopup();
