@@ -1,0 +1,12 @@
+.card__image-opened-description {
+  line-height: 15px;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  padding-top: 10px;
+}
