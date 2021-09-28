@@ -16,8 +16,8 @@
 @import url(../blocks/gallery/gallery.css);
 @import url(../blocks/card/card.css);
 @import url(../blocks/card/__image/card__image.css);
-@import url(../blocks/card/__image-opened/card__image-opened.css);
-@import url(../blocks/card/__image-opened-description/card__image-opened-description.css);
+@import url(../blocks/card/__image/_opened/card__image_opened.css);
+@import url(../blocks/card/__caption/_opened/card__caption_opened.css);
 @import url(../blocks/card/__description/card__description.css);
 @import url(../blocks/card/__text/card__text.css);
 @import url(../blocks/card/__icon-like/card__icon-like.css);
