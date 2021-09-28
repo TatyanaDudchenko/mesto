@@ -95,13 +95,13 @@ initialCards.forEach(item => {
   function openImageFormSubmitHandler (evt) {
     evt.preventDefault();
     // Выбираем в попапе место для изображения и заполняем его данными из карточки
-    const imagePopupImage = imagePopup.querySelector('.card__image_opened');
+    const imagePopupImage = imagePopup.querySelector('.card__image-is-open');
     imagePopupImage.src = item.link;
     // Выбираем в попапе место для подписи картинки и заполняем его данными из карточки
-    const imagePopupDescription = imagePopup.querySelector('.card__caption_opened');
+    const imagePopupDescription = imagePopup.querySelector('.card__description-is-open');
     imagePopupDescription.textContent = item.name;
     // Выбираем в попапе место для альтернативного текста картинки и заполняем его данными из карточки
-    const imagePopupImageAlt = imagePopup.querySelector('.card__image_opened');
+    const imagePopupImageAlt = imagePopup.querySelector('.card__image-is-open');
     imagePopupImageAlt.alt = item.name;
     //Вызываем функцию открытия попапа Просмотр картинки
     openImagePopup();
@@ -244,15 +244,15 @@ evt.preventDefault();
   evt.preventDefault();
 
     // Выбираем в попапе место для изображения и заполняем его данными из карточки
-    const imagePopupImage = imagePopup.querySelector('.card__image_opened');
+    const imagePopupImage = imagePopup.querySelector('.card__image-is-open');
     imagePopupImage.src = linkInput.value;
 
     // Выбираем в попапе место для подписи картинки и заполняем его данными из карточки
-    const imagePopupDescription = imagePopup.querySelector('.card__caption_opened');
+    const imagePopupDescription = imagePopup.querySelector('.card__description-is-open');
     imagePopupDescription.textContent = titleInput.value;
 
     // Выбираем в попапе место для альтернативного текста и заполняем его данными из карточки
-    const imagePopupImageAlt = imagePopup.querySelector('.card__image_opened');
+    const imagePopupImageAlt = imagePopup.querySelector('.card__image-is-open');
     imagePopupImageAlt.alt = titleInput.value;
 
     //Вызываем функцию открытия попапа Просмотр картинки

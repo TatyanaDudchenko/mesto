@@ -1,4 +1,4 @@
-.card__image_opened {
+.card__image-is-open {
   object-fit: cover;
   display: block;
   max-width: 75vw;
