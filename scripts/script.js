@@ -77,20 +77,6 @@ function closePopup(popup) {
 openEditPopupButton.addEventListener('click',
 function openEditPopup() {
   openPopup(editPopup);
-
-  // Обработчик «отправки» формы
-  function formSubmitHandler (evt) {
-  evt.preventDefault();
-
-    // Вставляем новые значения из полей ввода на страницу с помощью textContent
-    profileName.textContent = nameInput.value;
-    profileJob.textContent = jobInput.value;
-
-    //Вызываем функцию закрытия попапа редактирования
-    closePopup(editPopup);
-  }
-
-  formEditPopup.addEventListener('submit', formSubmitHandler);
 });
 
 // Запускаем функцию открытия попапа добавления по клику кнопки Добавить
@@ -117,6 +103,18 @@ function closeImagePopup() {
   closePopup(imagePopup)
 });
 
+// Обработчик «отправки» формы дяя редактирования профиля
+function formSubmitHandler (evt) {
+  evt.preventDefault();
+
+  // Вставляем новые значения из полей ввода на страницу с помощью textContent
+  profileName.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+
+  //Вызываем функцию закрытия попапа редактирования
+  closePopup(editPopup);
+}
+formEditPopup.addEventListener('submit', formSubmitHandler);
 
 
 // Универсальная функция для создания карточки
@@ -216,5 +214,4 @@ evt.preventDefault();
   //Вызываем функцию закрытия попапа добавления
   closePopup(addPopup);
 };
-
 formAddPopup.addEventListener('submit', newCardFormSubmitHandler);
