@@ -91,16 +91,65 @@ function closeEditPopup() {
   closePopup(editPopup)
 });
 
+// Запускаем обработчик с функцией закрытия попапа редактирования по клику на Оверлей
+editPopup.addEventListener('click', function (evt) {
+  // Если нажали на «оверлей», закрыть попап
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(evt.target);
+  };
+  // Иначе ничего делать не нужно
+});
+
+// Запускаем обработчик с функцией закрытия попапа редактирования по нажатию клавиши Esc
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    closePopup(editPopup)
+  }
+});
+
 // Запускаем функцию закрытия попапа добавления по клику кнопки Крестик
 closeAddPopupButton.addEventListener('click',
 function closeAddPopup() {
   closePopup(addPopup)
 });
 
+// Запускаем обработчик с функцией закрытия попапа добавления по клику на Оверлей
+addPopup.addEventListener('click', function (evt) {
+  // Если нажали на «оверлей», закрыть попап
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(evt.target);
+  };
+  // Иначе ничего делать не нужно
+});
+
+
+// Запускаем обработчик с функцией закрытия попапа добавления по нажатию клавиши Esc
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    closePopup(addPopup)
+  }
+});
+
 // Запускаем функцию закрытия попапа просмотра картинки по клику кнопки Крестик
 closeImagePopupButton.addEventListener('click',
 function closeImagePopup() {
   closePopup(imagePopup)
+});
+
+// Запускаем обработчик с функцией закрытия попапа просмотра картинки по клику на Оверлей
+imagePopup.addEventListener('click', function (evt) {
+  // Если нажали на «оверлей», закрыть попап
+  if (evt.target.classList.contains('popup_opened')) {
+    closePopup(evt.target)
+  };
+  // Иначе ничего делать не нужно
+});
+
+// Запускаем обработчик с функцией закрытия попапа просмотра картинки по нажатию клавиши Esc
+document.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    closePopup(imagePopup)
+  }
 });
 
 // Обработчик «отправки» формы дяя редактирования профиля
