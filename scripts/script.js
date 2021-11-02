@@ -96,7 +96,25 @@ openEditPopupButton.addEventListener('click', openEditPopup);
 
 // Объявляем функцию открытия попапа добавления
 function openAddPopup() {
-  openPopup(addPopup)
+  openPopup(addPopup);
+  // Очищаем поля ввода
+  titleInput.value = '';
+  linkInput.value = '';
+  // Находим кнопку отправки и дезактивируем ее
+  const buttonSubmitAddPopup = addPopup.querySelector('.popup__button');
+  buttonSubmitAddPopup.classList.add('popup__button_disabled');
+  // Находим элемент сообщения об ошибке по уникальному классу
+  const errorElementTitleInput = addPopup.querySelector(`.${titleInput.id}-error`);
+  const errorElementLinkInput = addPopup.querySelector(`.${linkInput.id}-error`);
+  // Удаляем у полей ввода класс показа ошибки ввода
+  titleInput.classList.remove('popup__input_type_error');
+  linkInput.classList.remove('popup__input_type_error');
+  // Удаляем у элемента сообщения об ошибке активизирующий его класс
+  errorElementTitleInput.classList.remove('popup__error_visible');
+  errorElementLinkInput.classList.remove('popup__error_visible');
+  // Очищаем текстовое значение элемента сообщения об ошибке
+  errorElementTitleInput.textContent = '';
+  errorElementLinkInput.textContent = '';
 };
 // Передаем в обработчик ссылку на функцию открытия попапа добавления по клику кнопки Добавить
 openAddPopupButton.addEventListener('click', openAddPopup);
@@ -216,24 +234,6 @@ function createCard(data) {
 // Универсальная функция для отрисовки карточки
 function renderCard(card) {
   gallery.prepend(card);
-  // Очищаем поля ввода
-  titleInput.value = '';
-  linkInput.value = '';
-  // Находим кнопку отправки и дезактивируем ее
-  const buttonSubmitAddPopup = addPopup.querySelector('.popup__button');
-  buttonSubmitAddPopup.classList.add('popup__button_disabled');
-  // Находим элемент сообщения об ошибке по уникальному классу
-  const errorElementTitleInput = addPopup.querySelector(`.${titleInput.id}-error`);
-  const errorElementLinkInput = addPopup.querySelector(`.${linkInput.id}-error`);
-  // Удаляем у полей ввода класс показа ошибки ввода
-  titleInput.classList.remove('popup__input_type_error');
-  linkInput.classList.remove('popup__input_type_error');
-  // Удаляем у элемента сообщения об ошибке активизирующий его класс
-  errorElementTitleInput.classList.remove('popup__error_visible');
-  errorElementLinkInput.classList.remove('popup__error_visible');
-  // Очищаем текстовое значение элемента сообщения об ошибке
-  errorElementTitleInput.textContent = '';
-  errorElementLinkInput.textContent = '';
 };
 
 // Запускаем функцию добавления первоначальных карточек
