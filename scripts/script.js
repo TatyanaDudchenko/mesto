@@ -66,93 +66,80 @@ const linkInput = formAddPopup.querySelector('.popup__input_link');
 // Универсальная функция открытия попапа
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-}
+  // Устанавливаем обработчик и передаем в него ссылку на функцию закрытия открытого попапа по нажатию клавиши Esc
+  document.addEventListener('keydown', closeByEscape);
+};
 
 // Универсальная функция закрытия попапа
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
-}
+  // Удаляем обработчик и передаем в него ссылку на функцию закрытия открытого попапа по нажатию клавиши Esc
+  document.removeEventListener('keydown', closeByEscape);
+};
 
-// Запускаем функцию открытия попапа редактирования по клику кнопки Редактировать
-openEditPopupButton.addEventListener('click',
+// Универсальная функция закрытия открытого попапа по нажатию клавиши Esc
+function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    // Находим открытый попап
+    const openedPopup = document.querySelector('.popup_opened');
+    // Закрываем открытый попап
+    closePopup(openedPopup);
+  };
+};
+
+// Объявляем функцию открытия попапа редактирования
 function openEditPopup() {
   openPopup(editPopup);
-});
+};
+// Передаем в обработчик ссылку на функцию открытия попапа редактирования по клику кнопки Редактировать
+openEditPopupButton.addEventListener('click', openEditPopup);
 
-// Запускаем функцию открытия попапа добавления по клику кнопки Добавить
-openAddPopupButton.addEventListener('click',
+// Объявляем функцию открытия попапа добавления
 function openAddPopup() {
   openPopup(addPopup)
-});
+};
+// Передаем в обработчик ссылку на функцию открытия попапа добавления по клику кнопки Добавить
+openAddPopupButton.addEventListener('click', openAddPopup);
 
-// Запускаем функцию закрытия попапа редактирования по клику кнопки Крестик
-closeEditPopupButton.addEventListener('click',
+// Объявляем функцию закрытия попапа редактирования
 function closeEditPopup() {
   closePopup(editPopup)
-});
+};
+// Передаем в обработчик ссылку на функцию закрытия попапа редактирования по клику кнопки Крестик
+closeEditPopupButton.addEventListener('click', closeEditPopup);
 
-// Запускаем обработчик с функцией закрытия попапа редактирования по клику на Оверлей
-editPopup.addEventListener('click', function (evt) {
-  // Если нажали на «оверлей», закрыть попап
-  if (evt.target.classList.contains('popup_opened')) {
-    closePopup(evt.target);
-  };
-  // Иначе ничего делать не нужно
-});
-
-// Запускаем обработчик с функцией закрытия попапа редактирования по нажатию клавиши Esc
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape') {
-    closePopup(editPopup)
-  }
-});
-
-// Запускаем функцию закрытия попапа добавления по клику кнопки Крестик
-closeAddPopupButton.addEventListener('click',
+// Объявляем функцию закрытия попапа добавления
 function closeAddPopup() {
   closePopup(addPopup)
-});
+};
+// Передаем в обработчик ссылку на функцию закрытия попапа добавления по клику кнопки Крестик
+closeAddPopupButton.addEventListener('click', closeAddPopup);
 
-// Запускаем обработчик с функцией закрытия попапа добавления по клику на Оверлей
-addPopup.addEventListener('click', function (evt) {
+// Объявляем функцию закрытия попапа просмотра картинки
+function closeImagePopup() {
+  closePopup(imagePopup)
+};
+// Передаем в обработчик ссылку на функцию закрытия попапа просмотра картинки по клику кнопки Крестик
+closeImagePopupButton.addEventListener('click', closeImagePopup);
+
+
+// Объявляем функцию закрытия открытого попапа по клику на Оверлей
+function closeByOverlay (evt) {
   // Если нажали на «оверлей», закрыть попап
   if (evt.target.classList.contains('popup_opened')) {
     closePopup(evt.target);
   };
   // Иначе ничего делать не нужно
-});
+};
 
+// Устанавливаем обработчик на попап редактирования и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
+editPopup.addEventListener('click', closeByOverlay);
+// Устанавливаем обработчик на попап добавления и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
+addPopup.addEventListener('click', closeByOverlay);
+// Устанавливаем обработчик на попап просмотра картинки и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
+imagePopup.addEventListener('click', closeByOverlay);
 
-// Запускаем обработчик с функцией закрытия попапа добавления по нажатию клавиши Esc
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape') {
-    closePopup(addPopup)
-  }
-});
-
-// Запускаем функцию закрытия попапа просмотра картинки по клику кнопки Крестик
-closeImagePopupButton.addEventListener('click',
-function closeImagePopup() {
-  closePopup(imagePopup)
-});
-
-// Запускаем обработчик с функцией закрытия попапа просмотра картинки по клику на Оверлей
-imagePopup.addEventListener('click', function (evt) {
-  // Если нажали на «оверлей», закрыть попап
-  if (evt.target.classList.contains('popup_opened')) {
-    closePopup(evt.target)
-  };
-  // Иначе ничего делать не нужно
-});
-
-// Запускаем обработчик с функцией закрытия попапа просмотра картинки по нажатию клавиши Esc
-document.addEventListener('keydown', function (evt) {
-  if (evt.key === 'Escape') {
-    closePopup(imagePopup)
-  }
-});
-
-// Обработчик «отправки» формы дяя редактирования профиля
+// Обработчик «отправки» формы для редактирования профиля
 function formSubmitHandler (evt) {
   evt.preventDefault();
 
@@ -171,16 +158,14 @@ function createCard(data) {
   // Клонируем шаблон
   const card = templateCard.cloneNode(true);
 
-  // Выбираем в карточке место для вставки изображения
+  // Выбираем в карточке место для вставки изображения и альтернативного текста
   const cardImage = card.querySelector('.card__image');
-  // Выбираем в карточке место для вставки альтернативного текста
-  const cardAlt = card.querySelector('.card__image');
   // Выбираем в карточке место для вставки заголовка
   const cardTitle = card.querySelector('.card__text');
 
   // Вставляем данные из массива/объекта в карточки
   cardImage.src = data.link;
-  cardAlt.alt = data.name;
+  cardImage.alt = data.name;
   cardTitle.textContent = data.name;
 
   // Обработчики на кнопки карточки
@@ -208,17 +193,15 @@ function createCard(data) {
   // Обработчик «отправки» формы для просмотра картинки
   function openImageFormSubmitHandler (evt) {
     evt.preventDefault();
-    // Выбираем в попапе Просмотра картинки место для изображения
+    // Выбираем в попапе Просмотра картинки место для изображения и альтернативного текста
     const imagePopupImage = imagePopup.querySelector('.popup__image-is-opened');
     // Выбираем в попапе Просмотра картинки место для подписи картинки
     const imagePopupDescription = imagePopup.querySelector('.popup__description-is-opened');
-    // Выбираем в попапе Просмотра картинки место для альтернативного текста картинки
-    const imagePopupImageAlt = imagePopup.querySelector('.popup__image-is-opened');
 
     // Заполняем попап Просмотра картинки данными из начальной карточки
     imagePopupImage.src = data.link;
+    imagePopupImage.alt = data.name;
     imagePopupDescription.textContent = data.name;
-    imagePopupImageAlt.alt = data.name;
 
     //Вызываем функцию открытия попапа Просмотр картинки
     openPopup(imagePopup);
@@ -233,7 +216,25 @@ function createCard(data) {
 // Универсальная функция для отрисовки карточки
 function renderCard(card) {
   gallery.prepend(card);
-}
+  // Очищаем поля ввода
+  titleInput.value = '';
+  linkInput.value = '';
+  // Находим кнопку отправки и дезактивируем ее
+  const buttonSubmitAddPopup = addPopup.querySelector('.popup__button');
+  buttonSubmitAddPopup.classList.add('popup__button_disabled');
+  // Находим элемент сообщения об ошибке по уникальному классу
+  const errorElementTitleInput = addPopup.querySelector(`.${titleInput.id}-error`);
+  const errorElementLinkInput = addPopup.querySelector(`.${linkInput.id}-error`);
+  // Удаляем у полей ввода класс показа ошибки ввода
+  titleInput.classList.remove('popup__input_type_error');
+  linkInput.classList.remove('popup__input_type_error');
+  // Удаляем у элемента сообщения об ошибке активизирующий его класс
+  errorElementTitleInput.classList.remove('popup__error_visible');
+  errorElementLinkInput.classList.remove('popup__error_visible');
+  // Очищаем текстовое значение элемента сообщения об ошибке
+  errorElementTitleInput.textContent = '';
+  errorElementLinkInput.textContent = '';
+};
 
 // Запускаем функцию добавления первоначальных карточек
 initialCards.forEach(item => {

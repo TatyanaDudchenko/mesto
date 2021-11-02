@@ -47,7 +47,7 @@ const hasInvalidInput = (inputList) => {
     return !inputElement.validity.valid;
   });
 };
-console.log()
+
 // Функция переключения состояния кнопки отправки формы
 const toggleButtonState = (inputList, buttonElement, settingsObject) => {
   if (hasInvalidInput(inputList)) {
