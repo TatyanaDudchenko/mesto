@@ -1,3 +1,18 @@
+import {Card} from './Card.js';
+import {openPopup, closePopup} from './helper.js';
+import {FormValidator} from './FormValidator.js';
+
+// Объявляем объект настроек валидации
+const settingsObjectMesto = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
+
 // Массив для добавления начальных карточек
 const initialCards = [
   {
@@ -26,10 +41,11 @@ const initialCards = [
   }
 ];
 
-// Выбираем в документе шаблон карточки
-const templateCard = document.querySelector('.template-card').content.querySelector('.card');
 // Выбираем в документе галерею, которая будет заполняться карточками
 const gallery = document.querySelector('.gallery');
+
+// // Выбираем в документе шаблон карточки
+// const templateCard = document.querySelector('.template-card').content.querySelector('.card');
 
 // Выбираем элементы попапы
 const editPopup = document.querySelector('.popup_type_edit');
@@ -62,30 +78,6 @@ const formAddPopup = addPopup.querySelector('.popup__container');
 const titleInput = formAddPopup.querySelector('.popup__input_title');
 // Выбираем поле ввода добавления новой карточки Ссылка
 const linkInput = formAddPopup.querySelector('.popup__input_link');
-
-// Универсальная функция открытия попапа
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  // Устанавливаем обработчик и передаем в него ссылку на функцию закрытия открытого попапа по нажатию клавиши Esc
-  document.addEventListener('keydown', closeByEscape);
-};
-
-// Универсальная функция закрытия попапа
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  // Удаляем обработчик и передаем в него ссылку на функцию закрытия открытого попапа по нажатию клавиши Esc
-  document.removeEventListener('keydown', closeByEscape);
-};
-
-// Универсальная функция закрытия открытого попапа по нажатию клавиши Esc
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    // Находим открытый попап
-    const openedPopup = document.querySelector('.popup_opened');
-    // Закрываем открытый попап
-    closePopup(openedPopup);
-  };
-};
 
 // Объявляем функцию открытия попапа редактирования
 function openEditPopup() {
@@ -171,79 +163,86 @@ function formSubmitHandler (evt) {
 formEditPopup.addEventListener('submit', formSubmitHandler);
 
 
-// Универсальная функция для создания карточки
-function createCard(data) {
-  // Клонируем шаблон
-  const card = templateCard.cloneNode(true);
+// // Универсальная функция для создания карточки
+// function createCard(data) {
+//   // Клонируем шаблон
+//   const card = templateCard.cloneNode(true);
 
-  // Выбираем в карточке место для вставки изображения и альтернативного текста
-  const cardImage = card.querySelector('.card__image');
-  // Выбираем в карточке место для вставки заголовка
-  const cardTitle = card.querySelector('.card__text');
+//   // Выбираем в карточке место для вставки изображения и альтернативного текста
+//   const cardImage = card.querySelector('.card__image');
+//   // Выбираем в карточке место для вставки заголовка
+//   const cardTitle = card.querySelector('.card__text');
 
-  // Вставляем данные из массива/объекта в карточки
-  cardImage.src = data.link;
-  cardImage.alt = data.name;
-  cardTitle.textContent = data.name;
+//   // Вставляем данные из массива/объекта в карточки
+//   cardImage.src = data.link;
+//   cardImage.alt = data.name;
+//   cardTitle.textContent = data.name;
 
-  // Обработчики на кнопки карточки
+//   // Обработчики на кнопки карточки
 
-  // Выбираем в карточке элемент кнопка Лайк
-  const likeButton = card.querySelector('.card__icon-like');
-  // Функция Лайк
-  function like() {
-    likeButton.classList.toggle('card__icon-like_active');
-  };
-  //Запускаем функцию Лайк по клику на сердечко
-  likeButton.addEventListener('click', like);
-
-
-  // Выбираем в карточке элемент кнопка Урна
-  const trashButton = card.querySelector('.card__icon-trash');
-  // Функция Удаление карточки
-  function removeCard() {
-    card.remove();
-  };
-  //Запускаем функцию Удаление карточки по клику на ведёрко
-  trashButton.addEventListener('click', removeCard);
+//   // Выбираем в карточке элемент кнопка Лайк
+//   const likeButton = card.querySelector('.card__icon-like');
+//   // Функция Лайк
+//   function like() {
+//     likeButton.classList.toggle('card__icon-like_active');
+//   };
+//   //Запускаем функцию Лайк по клику на сердечко
+//   likeButton.addEventListener('click', like);
 
 
-  // Обработчик «отправки» формы для просмотра картинки
-  function openImageFormSubmitHandler (evt) {
-    evt.preventDefault();
-    // Выбираем в попапе Просмотра картинки место для изображения и альтернативного текста
-    const imagePopupImage = imagePopup.querySelector('.popup__image-is-opened');
-    // Выбираем в попапе Просмотра картинки место для подписи картинки
-    const imagePopupDescription = imagePopup.querySelector('.popup__description-is-opened');
+//   // Выбираем в карточке элемент кнопка Урна
+//   const trashButton = card.querySelector('.card__icon-trash');
+//   // Функция Удаление карточки
+//   function removeCard() {
+//     card.remove();
+//   };
+//   //Запускаем функцию Удаление карточки по клику на ведёрко
+//   trashButton.addEventListener('click', removeCard);
 
-    // Заполняем попап Просмотра картинки данными из начальной карточки
-    imagePopupImage.src = data.link;
-    imagePopupImage.alt = data.name;
-    imagePopupDescription.textContent = data.name;
 
-    //Вызываем функцию открытия попапа Просмотр картинки
-    openPopup(imagePopup);
-  }
+  // // Обработчик формы для просмотра картинки
+  // function openImageFormHandler (evt) {
+  //   evt.preventDefault();
+  //   // Выбираем в попапе Просмотра картинки место для изображения и альтернативного текста
+  //   const imagePopupImage = imagePopup.querySelector('.popup__image-is-opened');
+  //   // Выбираем в попапе Просмотра картинки место для подписи картинки
+  //   const imagePopupDescription = imagePopup.querySelector('.popup__description-is-opened');
 
-  // Запускаем функцию открытия попапа Просмотр картинки по клику на картинку
-  cardImage.addEventListener('click', openImageFormSubmitHandler);
+  //   // Заполняем попап Просмотра картинки данными из начальной карточки
+  //   imagePopupImage.src = data.link;
+  //   imagePopupImage.alt = data.name;
+  //   imagePopupDescription.textContent = data.name;
 
-  return card;
-}
+  //   //Вызываем функцию открытия попапа Просмотр картинки
+  //   openPopup(imagePopup);
+  // }
+
+//   // Запускаем функцию открытия попапа Просмотр картинки по клику на картинку
+//   cardImage.addEventListener('click', openImageFormHandler);
+
+//   return card;
+// }
 
 // Универсальная функция для отрисовки карточки
 function renderCard(card) {
   gallery.prepend(card);
 };
 
+// // Запускаем функцию добавления первоначальных карточек
+// initialCards.forEach(item => {
+//   // Создаем переменную и запускаем функцию создания карточек из массива
+//     const card = createCard(item);
+//   // Запускаем функцию отрисовки карточек
+//   renderCard(card);
+// });
+
 // Запускаем функцию добавления первоначальных карточек
 initialCards.forEach(item => {
-  // Создаем переменную и запускаем функцию создания карточек из массива
-    const card = createCard(item);
-  // Запускаем функцию отрисовки карточек
-  renderCard(card);
-});
+  const card = new Card(item, '.template-card');
+  const cardItem = card.createCard();
 
+  gallery.prepend(cardItem);
+});
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
 function newCardFormSubmitHandler (evt) {
@@ -256,12 +255,23 @@ evt.preventDefault();
     };
 
   // Создаем переменную и запускаем функцию создания новой карточки из попапа
-  const card = createCard(newCard);
+  const card = new Card(newCard, '.template-card');
+  const cardItem = card.createCard();
 
   // Запускаем функцию отрисовки карточек
-  renderCard(card);
+  renderCard(cardItem);
 
   //Вызываем функцию закрытия попапа добавления
   closePopup(addPopup);
 };
 formAddPopup.addEventListener('submit', newCardFormSubmitHandler);
+
+
+const editPopupValidator = new FormValidator(settingsObjectMesto, editPopup);
+editPopupValidator.enableValidation();
+
+const addPopupValidator = new FormValidator(settingsObjectMesto, addPopup);
+addPopupValidator.enableValidation();
+
+
+export {imagePopup};
