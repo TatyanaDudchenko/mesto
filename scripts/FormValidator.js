@@ -25,7 +25,7 @@ class FormValidator {
     });
 
     // Устанавливаем на форму слушатель по событию отправки формы
-    this._formElement.addEventListener('submit', function (evt) {
+    this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
   };
