@@ -2,6 +2,10 @@ class FormValidator {
   constructor(settingsObject, formElement) {
     this._settingsObject = settingsObject; // settingsObject {...}
     this._formElement = formElement;
+    // Находим все поля ввода
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._settingsObject.inputSelector));
+    // Находим кнопку отправки формы
+    this._buttonElement = this._formElement.querySelector(this._settingsObject.submitButtonSelector);
   };
 
   enableValidation() {
@@ -9,18 +13,15 @@ class FormValidator {
   };
 
   _setEventListeners() {
-    // Находим все поля ввода
-    const inputList = Array.from(this._formElement.querySelectorAll(this._settingsObject.inputSelector));
-    // Находим и предварительно дезактивируем кнопку отправки формы, прежде чем ее начнут заполнять, путем запуска функции переключения состояния кнопки перед обработчиком событий ввода
-    const buttonElement = this._formElement.querySelector(this._settingsObject.submitButtonSelector);
-    this._toggleButtonState(inputList, buttonElement);
+    // Предварительно деактивируем кнопку отправки формы, прежде чем ее начнут заполнять, путем запуска функции переключения состояния кнопки перед обработчиком событий ввода
+    this._toggleButtonState();
 
     // Запускаем обработчик событий ввода с запуском функций, отвечающих за валидность вводимых элементов и состояние кнопки отправки
-    inputList.forEach((inputElement) => {
+    this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
 
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
 
@@ -29,6 +30,16 @@ class FormValidator {
       evt.preventDefault();
     });
   };
+
+  // Метод для очистки ошибок в полях ввода и управления кнопкой отправки
+  resetValidation() {
+    this._toggleButtonState();
+
+    this._inputList.forEach((inputElement) => {
+      this._hideInputError(inputElement);
+    });
+
+  }
 
   // Метод показа ошибки ввода
   _showInputError(inputElement, errorMessage) {
@@ -64,18 +75,18 @@ class FormValidator {
   };
 
   // Метод проверки на наличие хотя бы одного невалидного поля в форме
-  _hasInvalidInput(inputList) {
-    return inputList.some((inputElement) => {
+  _hasInvalidInput() {
+    return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
   };
 
   // Метод переключения состояния кнопки отправки формы
-  _toggleButtonState(inputList, buttonElement) {
-    if (this._hasInvalidInput(inputList)) {
-      buttonElement.classList.add(this._settingsObject.inactiveButtonClass);
+  _toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      this._buttonElement.classList.add(this._settingsObject.inactiveButtonClass);
     } else {
-      buttonElement.classList.remove(this._settingsObject.inactiveButtonClass);
+      this._buttonElement.classList.remove(this._settingsObject.inactiveButtonClass);
     };
   };
 

@@ -1,5 +1,5 @@
 import {Card} from './Card.js';
-import {openPopup, closePopup} from './helper.js';
+import {openPopup, closePopup} from './utils.js';
 import {FormValidator} from './FormValidator.js';
 
 // Объявляем объект настроек валидации
@@ -44,9 +44,6 @@ const initialCards = [
 // Выбираем в документе галерею, которая будет заполняться карточками
 const gallery = document.querySelector('.gallery');
 
-// // Выбираем в документе шаблон карточки
-// const templateCard = document.querySelector('.template-card').content.querySelector('.card');
-
 // Выбираем элементы попапы
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
@@ -81,6 +78,12 @@ const linkInput = formAddPopup.querySelector('.popup__input_link');
 
 // Объявляем функцию открытия попапа редактирования
 function openEditPopup() {
+  // Предарительно обновляем поля ввода
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+  // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
+  editPopupValidator.resetValidation();
+  // Открываем попап
   openPopup(editPopup);
 };
 // Передаем в обработчик ссылку на функцию открытия попапа редактирования по клику кнопки Редактировать
@@ -88,25 +91,13 @@ openEditPopupButton.addEventListener('click', openEditPopup);
 
 // Объявляем функцию открытия попапа добавления
 function openAddPopup() {
-  openPopup(addPopup);
-  // Очищаем поля ввода
+  // Предарительно очищаем поля ввода
   titleInput.value = '';
   linkInput.value = '';
-  // Находим кнопку отправки и дезактивируем ее
-  const buttonSubmitAddPopup = addPopup.querySelector('.popup__button');
-  buttonSubmitAddPopup.classList.add('popup__button_disabled');
-  // Находим элемент сообщения об ошибке по уникальному классу
-  const errorElementTitleInput = addPopup.querySelector(`.${titleInput.id}-error`);
-  const errorElementLinkInput = addPopup.querySelector(`.${linkInput.id}-error`);
-  // Удаляем у полей ввода класс показа ошибки ввода
-  titleInput.classList.remove('popup__input_type_error');
-  linkInput.classList.remove('popup__input_type_error');
-  // Удаляем у элемента сообщения об ошибке активизирующий его класс
-  errorElementTitleInput.classList.remove('popup__error_visible');
-  errorElementLinkInput.classList.remove('popup__error_visible');
-  // Очищаем текстовое значение элемента сообщения об ошибке
-  errorElementTitleInput.textContent = '';
-  errorElementLinkInput.textContent = '';
+  // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
+  addPopupValidator.resetValidation();
+  // Открываем попап
+  openPopup(addPopup);
 };
 // Передаем в обработчик ссылку на функцию открытия попапа добавления по клику кнопки Добавить
 openAddPopupButton.addEventListener('click', openAddPopup);
@@ -162,86 +153,23 @@ function formSubmitHandler (evt) {
 }
 formEditPopup.addEventListener('submit', formSubmitHandler);
 
-
-// // Универсальная функция для создания карточки
-// function createCard(data) {
-//   // Клонируем шаблон
-//   const card = templateCard.cloneNode(true);
-
-//   // Выбираем в карточке место для вставки изображения и альтернативного текста
-//   const cardImage = card.querySelector('.card__image');
-//   // Выбираем в карточке место для вставки заголовка
-//   const cardTitle = card.querySelector('.card__text');
-
-//   // Вставляем данные из массива/объекта в карточки
-//   cardImage.src = data.link;
-//   cardImage.alt = data.name;
-//   cardTitle.textContent = data.name;
-
-//   // Обработчики на кнопки карточки
-
-//   // Выбираем в карточке элемент кнопка Лайк
-//   const likeButton = card.querySelector('.card__icon-like');
-//   // Функция Лайк
-//   function like() {
-//     likeButton.classList.toggle('card__icon-like_active');
-//   };
-//   //Запускаем функцию Лайк по клику на сердечко
-//   likeButton.addEventListener('click', like);
-
-
-//   // Выбираем в карточке элемент кнопка Урна
-//   const trashButton = card.querySelector('.card__icon-trash');
-//   // Функция Удаление карточки
-//   function removeCard() {
-//     card.remove();
-//   };
-//   //Запускаем функцию Удаление карточки по клику на ведёрко
-//   trashButton.addEventListener('click', removeCard);
-
-
-  // // Обработчик формы для просмотра картинки
-  // function openImageFormHandler (evt) {
-  //   evt.preventDefault();
-  //   // Выбираем в попапе Просмотра картинки место для изображения и альтернативного текста
-  //   const imagePopupImage = imagePopup.querySelector('.popup__image-is-opened');
-  //   // Выбираем в попапе Просмотра картинки место для подписи картинки
-  //   const imagePopupDescription = imagePopup.querySelector('.popup__description-is-opened');
-
-  //   // Заполняем попап Просмотра картинки данными из начальной карточки
-  //   imagePopupImage.src = data.link;
-  //   imagePopupImage.alt = data.name;
-  //   imagePopupDescription.textContent = data.name;
-
-  //   //Вызываем функцию открытия попапа Просмотр картинки
-  //   openPopup(imagePopup);
-  // }
-
-//   // Запускаем функцию открытия попапа Просмотр картинки по клику на картинку
-//   cardImage.addEventListener('click', openImageFormHandler);
-
-//   return card;
-// }
-
 // Универсальная функция для отрисовки карточки
 function renderCard(card) {
   gallery.prepend(card);
 };
 
-// // Запускаем функцию добавления первоначальных карточек
-// initialCards.forEach(item => {
-//   // Создаем переменную и запускаем функцию создания карточек из массива
-//     const card = createCard(item);
-//   // Запускаем функцию отрисовки карточек
-//   renderCard(card);
-// });
+// Функция создания новой карточки
+function createCard(item) {
+  const card = new Card(item, '.template-card');
+  const cardItem = card.createCard();
+  return cardItem;
+};
 
 // Запускаем функцию добавления первоначальных карточек
 initialCards.forEach(item => {
-  const card = new Card(item, '.template-card');
-  const cardItem = card.createCard();
-
-  gallery.prepend(cardItem);
+  createCard(item);
+  const cardItem = createCard(item);
+  renderCard(cardItem);
 });
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
@@ -254,9 +182,9 @@ evt.preventDefault();
       link: linkInput.value
     };
 
-  // Создаем переменную и запускаем функцию создания новой карточки из попапа
-  const card = new Card(newCard, '.template-card');
-  const cardItem = card.createCard();
+  // Запускаем функцию создания новой карточки
+  createCard(newCard);
+  const cardItem = createCard(newCard);
 
   // Запускаем функцию отрисовки карточек
   renderCard(cardItem);

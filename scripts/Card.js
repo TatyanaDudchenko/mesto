@@ -1,4 +1,4 @@
-import {openImageFormHandler} from './helper.js';
+import {openImageFormHandler} from './utils.js';
 
 const settingsObjectCard = {
   cardSelector: '.card',
@@ -10,7 +10,7 @@ const settingsObjectCard = {
 }
 
 class Card {
-  constructor(cardData, templateSelector) { // cardData {title, image}
+  constructor(cardData, templateSelector) {
     this._title = cardData.name;
     this._image = cardData.link;
     this._templateSelector = templateSelector;
