@@ -1,6 +1,9 @@
-import {Card} from './Card.js';
-import {openPopup, closePopup} from './utils.js';
-import {FormValidator} from './FormValidator.js';
+import Card from '../components/Card.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
 
 // Объявляем объект настроек валидации
 const settingsObjectMesto = {
@@ -11,7 +14,6 @@ const settingsObjectMesto = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
-
 
 // Массив для добавления начальных карточек
 const initialCards = [
@@ -41,22 +43,55 @@ const initialCards = [
   }
 ];
 
+
 // Выбираем в документе галерею, которая будет заполняться карточками
-const gallery = document.querySelector('.gallery');
+// const gallery = document.querySelector('.gallery');
+const gallerySelector = '.gallery';
+
+// Создаем экземпляр контейнера для карточек
+const cardList = new Section({
+  // передаем массив начальных карточек
+    items: initialCards,
+    // передаем функцию создания и отрисовки карточки
+    renderer: (item) => { // создаем экземпляр карточки
+      const card = new Card(item, '.template-card', openImageFormHandler);
+      const cardItem = card.createCard(); // отрисовываем карточку
+      cardList.addItem(cardItem); // добавляем контейнер с карточкой на страницу
+    }
+  },
+  // передаем селектор контейнера
+  gallerySelector
+);
+
+// запускаем отрисовку карточек
+cardList.renderItem();
+
+
+// Создаем экземпляры попапов
+const imageViewPopup = new PopupWithImage('.popup_type_img');
+imageViewPopup.setEventListeners();
+
+const formAdd = new PopupWithForm('.popup_type_add', newCardFormSubmitHandler);
+formAdd.setEventListeners();
+
+const formEdit = new PopupWithForm('.popup_type_edit', editFormSubmitHandler);
+formEdit.setEventListeners();
+
+// Создаем объект и экземпляр класса с данными пользователя
+const configUserInfo = {
+  nameItemSelector: '.profile__name',
+  jobItemSelector: '.profile__job'
+}
+const profileUserInfo = new UserInfo(configUserInfo);
+
 
 // Выбираем элементы попапы
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
-const imagePopup = document.querySelector('.popup_type_img');
 
 // Выбираем кнопки открытия попапов
 const openEditPopupButton = document.querySelector('.profile__button-edit');
 const openAddPopupButton = document.querySelector('.profile-container__button-add');
-
-// Выбираем кнопки закрытия попапов
-const closeEditPopupButton = editPopup.querySelector('.popup__icon-close');
-const closeAddPopupButton = addPopup.querySelector('.popup__icon-close');
-const closeImagePopupButton = imagePopup.querySelector('.popup__icon-close');
 
 // Выбираем элемент Форма редактирования
 const formEditPopup = editPopup.querySelector('.popup__container');
@@ -84,7 +119,7 @@ function openEditPopup() {
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   editPopupValidator.resetValidation();
   // Открываем попап
-  openPopup(editPopup);
+  formEdit.open();
 };
 // Передаем в обработчик ссылку на функцию открытия попапа редактирования по клику кнопки Редактировать
 openEditPopupButton.addEventListener('click', openEditPopup);
@@ -97,109 +132,49 @@ function openAddPopup() {
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   addPopupValidator.resetValidation();
   // Открываем попап
-  openPopup(addPopup);
+  formAdd.open();
 };
 // Передаем в обработчик ссылку на функцию открытия попапа добавления по клику кнопки Добавить
 openAddPopupButton.addEventListener('click', openAddPopup);
 
-// Объявляем функцию закрытия попапа редактирования
-function closeEditPopup() {
-  closePopup(editPopup)
-};
-// Передаем в обработчик ссылку на функцию закрытия попапа редактирования по клику кнопки Крестик
-closeEditPopupButton.addEventListener('click', closeEditPopup);
-
-// Объявляем функцию закрытия попапа добавления
-function closeAddPopup() {
-  closePopup(addPopup)
-};
-// Передаем в обработчик ссылку на функцию закрытия попапа добавления по клику кнопки Крестик
-closeAddPopupButton.addEventListener('click', closeAddPopup);
-
-// Объявляем функцию закрытия попапа просмотра картинки
-function closeImagePopup() {
-  closePopup(imagePopup)
-};
-// Передаем в обработчик ссылку на функцию закрытия попапа просмотра картинки по клику кнопки Крестик
-closeImagePopupButton.addEventListener('click', closeImagePopup);
-
-
-// Объявляем функцию закрытия открытого попапа по клику на Оверлей
-function closeByOverlay (evt) {
-  // Если нажали на «оверлей», закрыть попап
-  if (evt.target.classList.contains('popup_opened')) {
-    closePopup(evt.target);
-  };
-  // Иначе ничего делать не нужно
-};
-
-// Устанавливаем обработчик на попап редактирования и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
-editPopup.addEventListener('click', closeByOverlay);
-// Устанавливаем обработчик на попап добавления и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
-addPopup.addEventListener('click', closeByOverlay);
-// Устанавливаем обработчик на попап просмотра картинки и передаем в него ссылку на функцию закрытия попапа по клику на Оверлей
-imagePopup.addEventListener('click', closeByOverlay);
 
 // Обработчик «отправки» формы для редактирования профиля
-function formSubmitHandler (evt) {
-  evt.preventDefault();
+function editFormSubmitHandler (evt) {
+evt.preventDefault();
 
-  // Вставляем новые значения из полей ввода на страницу с помощью textContent
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-
-  //Вызываем функцию закрытия попапа редактирования
-  closePopup(editPopup);
+  // Создаем и передаем объект с данными новых значений из полей ввода на страницу
+  const profileUserData = {
+    name: nameInput.value,
+    job: jobInput.value
+  }
+  profileUserInfo.setUserInfo(profileUserData);
 }
-formEditPopup.addEventListener('submit', formSubmitHandler);
 
-// Универсальная функция для отрисовки карточки
-function renderCard(card) {
-  gallery.prepend(card);
-};
+// Обработчик формы для просмотра картинки
+function openImageFormHandler (data) {
 
-// Функция создания новой карточки
-function createCard(item) {
-  const card = new Card(item, '.template-card');
-  const cardItem = card.createCard();
-  return cardItem;
-};
-
-// Запускаем функцию добавления первоначальных карточек
-initialCards.forEach(item => {
-  createCard(item);
-  const cardItem = createCard(item);
-  renderCard(cardItem);
-});
+  //Вызываем функцию открытия попапа Просмотр картинки
+  imageViewPopup.open(data);
+}
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
 function newCardFormSubmitHandler (evt) {
 evt.preventDefault();
 
   // Создаем переменную с ключами со значениями соответствующих полей ввода из попапа Добавления
-  const newCard = {
-      name: titleInput.value,
-      link: linkInput.value
-    };
+  const newCardData = {
+    name: titleInput.value,
+    link: linkInput.value
+  };
 
-  // Запускаем функцию создания новой карточки
-  createCard(newCard);
-  const cardItem = createCard(newCard);
-
-  // Запускаем функцию отрисовки карточек
-  renderCard(cardItem);
-
-  //Вызываем функцию закрытия попапа добавления
-  closePopup(addPopup);
+  // создаем экземпляр новой карточки
+  const newCard = new Card(newCardData, '.template-card', openImageFormHandler);
+  const newCardItem = newCard.createCard(); // отрисовываем карточку
+  cardList.addItem(newCardItem); // добавляем контейнер с карточкой на страницу
 };
-formAddPopup.addEventListener('submit', newCardFormSubmitHandler);
-
 
 const editPopupValidator = new FormValidator(settingsObjectMesto, editPopup);
 editPopupValidator.enableValidation();
 
 const addPopupValidator = new FormValidator(settingsObjectMesto, addPopup);
 addPopupValidator.enableValidation();
-
-
-export {imagePopup};

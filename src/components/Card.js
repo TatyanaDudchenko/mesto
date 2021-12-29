@@ -1,5 +1,3 @@
-import {openImageFormHandler} from './utils.js';
-
 const settingsObjectCard = {
   cardSelector: '.card',
   likeButtonSelector: '.card__icon-like',
@@ -10,10 +8,11 @@ const settingsObjectCard = {
 }
 
 class Card {
-  constructor(cardData, templateSelector) {
+  constructor(cardData, templateSelector, handleCardClick) {
     this._title = cardData.name;
     this._image = cardData.link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate(settingsObject) {
@@ -53,7 +52,7 @@ class Card {
 
   // Метод-обработчик для открытия попапа просмотра картинки
   _handleOpenPopup() {
-    openImageFormHandler({
+    this._handleCardClick({
       name: this._title,
       link: this._image
     });
@@ -82,5 +81,5 @@ class Card {
 
 }
 
-export {Card};
+export default Card;
 
