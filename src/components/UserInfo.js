@@ -5,10 +5,6 @@ class UserInfo {
   }
 
   getUserInfo() {
-    const nameInput = this._form.querySelector('.popup__input_name');
-    const jobInput = this._form.querySelector('.popup__input_job');
-    this._name.textContent = nameInput.value;
-    this._job.textContent = jobInput.value;
 
     const userData = {
       name: nameInput.value,

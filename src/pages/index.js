@@ -116,6 +116,7 @@ function openEditPopup() {
   // Предарительно обновляем поля ввода
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   editPopupValidator.resetValidation();
   // Открываем попап
@@ -126,9 +127,7 @@ openEditPopupButton.addEventListener('click', openEditPopup);
 
 // Объявляем функцию открытия попапа добавления
 function openAddPopup() {
-  // Предарительно очищаем поля ввода
-  titleInput.value = '';
-  linkInput.value = '';
+
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   addPopupValidator.resetValidation();
   // Открываем попап
