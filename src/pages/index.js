@@ -6,56 +6,21 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 
-// Объявляем объект настроек валидации
-const settingsObjectMesto = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
+import { initialCards, settingsObjectMesto, gallerySelector, editPopup, addPopup, openEditPopupButton, openAddPopupButton, nameInput, jobInput, profileName, profileJob, titleInput, linkInput } from '../utils/constants';
 
-// Массив для добавления начальных карточек
-const initialCards = [
-  {
-    name: 'Морская звезда',
-    link: 'https://images.unsplash.com/photo-1610981263015-ef95481e9ffb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzN8fHN0YXJmaXNofGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  },
-  {
-    name: 'Рыбы',
-    link: 'https://images.unsplash.com/photo-1611833767698-7a8a336761db?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzN8fGNvcmFsfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  },
-  {
-    name: 'Медуза',
-    link: 'https://images.unsplash.com/photo-1549741501-4211de5d3757?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDl8fGplbGx5ZmlzaHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  },
-  {
-    name: 'Кораллы',
-    link: 'https://images.unsplash.com/photo-1589308945435-38c3f99b3824?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTA2fHxjb3JhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  },
-  {
-    name: 'Океан',
-    link: 'https://images.unsplash.com/photo-1432889490240-84df33d47091?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTl8fG9jZWFuJTIwbmF0dXJlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  },
-  {
-    name: 'Черепаха',
-    link: 'https://images.unsplash.com/photo-1580603474920-aa3332b2c40f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjN8fHR1cnRsZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
-  }
-];
-
-
-// Выбираем в документе галерею, которая будет заполняться карточками
-// const gallery = document.querySelector('.gallery');
-const gallerySelector = '.gallery';
+// Функция для создания экземпляра карточки
+function createCard(cardData, templateSelector, handleCardClick) {
+  const cardElement = new Card(cardData, templateSelector, handleCardClick);
+  return cardElement;
+}
 
 // Создаем экземпляр контейнера для карточек
 const cardList = new Section({
   // передаем массив начальных карточек
     items: initialCards,
     // передаем функцию создания и отрисовки карточки
-    renderer: (item) => { // создаем экземпляр карточки
-      const card = new Card(item, '.template-card', openImageFormHandler);
+    renderer: (item) => {
+      const card = createCard(item, '.template-card', hanldeOpenImageForm); // вызываем функцию создания нового экземпляра карточки и сохраняем результат в переменную
       const cardItem = card.createCard(); // отрисовываем карточку
       cardList.addItem(cardItem); // добавляем контейнер с карточкой на страницу
     }
@@ -72,10 +37,10 @@ cardList.renderItem();
 const imageViewPopup = new PopupWithImage('.popup_type_img');
 imageViewPopup.setEventListeners();
 
-const formAdd = new PopupWithForm('.popup_type_add', newCardFormSubmitHandler);
+const formAdd = new PopupWithForm('.popup_type_add', hanldeNewCardFormSubmit);
 formAdd.setEventListeners();
 
-const formEdit = new PopupWithForm('.popup_type_edit', editFormSubmitHandler);
+const formEdit = new PopupWithForm('.popup_type_edit', hanldeEditFormSubmit);
 formEdit.setEventListeners();
 
 // Создаем объект и экземпляр класса с данными пользователя
@@ -86,37 +51,15 @@ const configUserInfo = {
 const profileUserInfo = new UserInfo(configUserInfo);
 
 
-// Выбираем элементы попапы
-const editPopup = document.querySelector('.popup_type_edit');
-const addPopup = document.querySelector('.popup_type_add');
-
-// Выбираем кнопки открытия попапов
-const openEditPopupButton = document.querySelector('.profile__button-edit');
-const openAddPopupButton = document.querySelector('.profile-container__button-add');
-
-// Выбираем элемент Форма редактирования
-const formEditPopup = editPopup.querySelector('.popup__container');
-// Выбираем поле редактирования ввода Имя
-const nameInput = formEditPopup.querySelector('.popup__input_name');
-// Выбираем поле редактирования ввода Деятельность
-const jobInput = formEditPopup.querySelector('.popup__input_job');
-
-// Выбираем элементы, куда должны быть вставлены значения полей (для редактирования профиля)
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__job');
-
-// Выбираем элемент Форма добавления новой карточки
-const formAddPopup = addPopup.querySelector('.popup__container');
-// Выбираем поле ввода добавления новой карточки Название
-const titleInput = formAddPopup.querySelector('.popup__input_title');
-// Выбираем поле ввода добавления новой карточки Ссылка
-const linkInput = formAddPopup.querySelector('.popup__input_link');
-
 // Объявляем функцию открытия попапа редактирования
 function openEditPopup() {
+
+  // Формируем объект с данными пользователя
+  const initialProfileUserData = profileUserInfo.getUserInfo();
+
   // Предарительно обновляем поля ввода
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+  nameInput.value = initialProfileUserData.name;
+  jobInput.value = initialProfileUserData.job;
 
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   editPopupValidator.resetValidation();
@@ -139,37 +82,30 @@ openAddPopupButton.addEventListener('click', openAddPopup);
 
 
 // Обработчик «отправки» формы для редактирования профиля
-function editFormSubmitHandler (evt) {
+function hanldeEditFormSubmit (evt) {
 evt.preventDefault();
 
-  // Создаем и передаем объект с данными новых значений из полей ввода на страницу
-  const profileUserData = {
-    name: nameInput.value,
-    job: jobInput.value
-  }
+  const profileUserData = formEdit._getInputValues()
+
   profileUserInfo.setUserInfo(profileUserData);
 }
 
 // Обработчик формы для просмотра картинки
-function openImageFormHandler (data) {
+function hanldeOpenImageForm(data) {
 
   //Вызываем функцию открытия попапа Просмотр картинки
   imageViewPopup.open(data);
 }
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
-function newCardFormSubmitHandler (evt) {
+function hanldeNewCardFormSubmit(evt) {
 evt.preventDefault();
 
-  // Создаем переменную с ключами со значениями соответствующих полей ввода из попапа Добавления
-  const newCardData = {
-    name: titleInput.value,
-    link: linkInput.value
-  };
+  const newCardData = formAdd._getInputValues();
 
   // создаем экземпляр новой карточки
-  const newCard = new Card(newCardData, '.template-card', openImageFormHandler);
-  const newCardItem = newCard.createCard(); // отрисовываем карточку
+  const newCard = createCard(newCardData, '.template-card', hanldeOpenImageForm); // вызываем функцию создания нового экземпляра карточки и сохраняем результат в переменную
+  const newCardItem = newCard.createCard(newCardData); // отрисовываем карточку
   cardList.addItem(newCardItem); // добавляем контейнер с карточкой на страницу
 };
 

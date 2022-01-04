@@ -72,9 +72,9 @@ class Card {
     this._item = this._getTemplate(settingsObjectCard);
     this._setEventListeners(settingsObjectCard);
 
-    this._item.querySelector(settingsObjectCard.cardImageSelector).src = this._image;
+    this._cardImage.src = this._image;
     this._item.querySelector(settingsObjectCard.cardTitleSelector).textContent = this._title;
-    this._item.querySelector(settingsObjectCard.cardImageSelector).alt = this._title;
+    this._cardImage.alt = this._title;
 
     return this._item;
   }

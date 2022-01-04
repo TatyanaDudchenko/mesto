@@ -7,8 +7,8 @@ class UserInfo {
   getUserInfo() {
 
     const userData = {
-      name: nameInput.value,
-      job: jobInput.value
+      name: this._profileName.textContent,
+      job: this._profileJob.textContent
     }
 
     return userData;
