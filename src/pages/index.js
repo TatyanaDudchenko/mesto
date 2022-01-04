@@ -8,10 +8,11 @@ import UserInfo from '../components/UserInfo.js';
 
 import { initialCards, settingsObjectMesto, gallerySelector, editPopup, addPopup, openEditPopupButton, openAddPopupButton, nameInput, jobInput, profileName, profileJob, titleInput, linkInput } from '../utils/constants';
 
-// Функция для создания экземпляра карточки
-function createCard(cardData, templateSelector, handleCardClick) {
-  const cardElement = new Card(cardData, templateSelector, handleCardClick);
-  return cardElement;
+// Функция создания карточки
+function createCard(item) {
+  const cardElement = new Card(item, '.template-card', hanldeOpenImageForm); // создаем новый экземпляр карточки
+  const card = cardElement.createCard(); // отрисовываем карточку
+  return card;
 }
 
 // Создаем экземпляр контейнера для карточек
@@ -20,8 +21,7 @@ const cardList = new Section({
     items: initialCards,
     // передаем функцию создания и отрисовки карточки
     renderer: (item) => {
-      const card = createCard(item, '.template-card', hanldeOpenImageForm); // вызываем функцию создания нового экземпляра карточки и сохраняем результат в переменную
-      const cardItem = card.createCard(); // отрисовываем карточку
+      const cardItem = createCard(item); // вызываем функцию создания карточки и сохраняем результат в переменную
       cardList.addItem(cardItem); // добавляем контейнер с карточкой на страницу
     }
   },
@@ -55,11 +55,11 @@ const profileUserInfo = new UserInfo(configUserInfo);
 function openEditPopup() {
 
   // Формируем объект с данными пользователя
-  const initialProfileUserData = profileUserInfo.getUserInfo();
+  const {name, job} = profileUserInfo.getUserInfo();
 
   // Предарительно обновляем поля ввода
-  nameInput.value = initialProfileUserData.name;
-  jobInput.value = initialProfileUserData.job;
+  nameInput.value = name;
+  jobInput.value = job;
 
   // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
   editPopupValidator.resetValidation();
@@ -82,12 +82,9 @@ openAddPopupButton.addEventListener('click', openAddPopup);
 
 
 // Обработчик «отправки» формы для редактирования профиля
-function hanldeEditFormSubmit (evt) {
-evt.preventDefault();
+function hanldeEditFormSubmit(data) {
 
-  const profileUserData = formEdit._getInputValues()
-
-  profileUserInfo.setUserInfo(profileUserData);
+  profileUserInfo.setUserInfo(data);
 }
 
 // Обработчик формы для просмотра картинки
@@ -98,14 +95,16 @@ function hanldeOpenImageForm(data) {
 }
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
-function hanldeNewCardFormSubmit(evt) {
-evt.preventDefault();
+function hanldeNewCardFormSubmit(data) {
+//   // Обработчик «отправки» формы для редактирования профиля
+// function hanldeEditFormSubmit(profileUserData) {
 
-  const newCardData = formAdd._getInputValues();
+//   profileUserInfo.setUserInfo(profileUserData);
+// }
 
-  // создаем экземпляр новой карточки
-  const newCard = createCard(newCardData, '.template-card', hanldeOpenImageForm); // вызываем функцию создания нового экземпляра карточки и сохраняем результат в переменную
-  const newCardItem = newCard.createCard(newCardData); // отрисовываем карточку
+
+
+  const newCardItem = createCard(data); // вызываем функцию создания карточки и сохраняем результат в переменную
   cardList.addItem(newCardItem); // добавляем контейнер с карточкой на страницу
 };
 
