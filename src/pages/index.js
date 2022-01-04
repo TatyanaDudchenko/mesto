@@ -96,13 +96,6 @@ function hanldeOpenImageForm(data) {
 
 // Запускаем обработчик «отправки» формы для добавления новых карточек
 function hanldeNewCardFormSubmit(data) {
-//   // Обработчик «отправки» формы для редактирования профиля
-// function hanldeEditFormSubmit(profileUserData) {
-
-//   profileUserInfo.setUserInfo(profileUserData);
-// }
-
-
 
   const newCardItem = createCard(data); // вызываем функцию создания карточки и сохраняем результат в переменную
   cardList.addItem(newCardItem); // добавляем контейнер с карточкой на страницу
