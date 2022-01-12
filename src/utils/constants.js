@@ -41,6 +41,7 @@ export const initialCards = [
 export const gallerySelector = '.gallery';
 
 // Выбираем элементы попапы
+export const сonfirmPopup = document.querySelector('.popup_type_сonfirm');
 export const editPopup = document.querySelector('.popup_type_edit');
 export const addPopup = document.querySelector('.popup_type_add');
 

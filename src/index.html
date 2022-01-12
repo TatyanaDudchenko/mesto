@@ -36,7 +36,7 @@
     </footer>
 
     <div class="popup popup_type_edit">
-      <div class="popup__container">
+      <div class="popup__container popup__container_size_l">
         <button type="button" class="popup__icon-close"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
         <form name="editForm" class="popup__form" novalidate>
@@ -45,7 +45,7 @@
             <span class="name-input-error popup__input-error"></span>
           </label>
           <label class="popup__form-field">
-            <input type="text" placeholder="О себе" name="job" class="popup__input popup__input_job" id="job-input" value="Исследователь океана" minlength="2" maxlength="200" required>
+            <input type="text" placeholder="О себе" name="about" class="popup__input popup__input_job" id="job-input" value="Исследователь океана" minlength="2" maxlength="200" required>
             <span class="job-input-error popup__input-error"></span>
           </label>
           <button type="submit" value="Сохранить" class="popup__button">Сохранить</button>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="popup popup_type_add">
-      <div class="popup__container">
+      <div class="popup__container popup__container_size_l">
         <button type="button" class="popup__icon-close"></button>
         <h3 class="popup__title">Новое место</h3>
         <form name="addForm" class="popup__form" novalidate>
@@ -66,7 +66,17 @@
             <input type="url" placeholder="Ссылка на картинку" name="link" class="popup__input popup__input_link" id="link-input" value="" required>
             <span class="link-input-error popup__input-error"></span>
           </label>
-          <button type="submit" value="Сохранить" class="popup__button">Создать</button>
+          <button type="submit" value="Создать" class="popup__button">Создать</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_confirm">
+      <div class="popup__container popup__container_size_s">
+        <button type="button" class="popup__icon-close"></button>
+        <h3 class="popup__title">Вы уверены?</h3>
+        <form name="confirmForm" class="popup__form" novalidate>
+          <button type="submit" value="Да" class="popup__button">Да</button>
         </form>
       </div>
     </div>
@@ -86,7 +96,13 @@
         <button type="button" class="card__icon-trash"></button>
         <figcaption class="card__description">
           <h2 class="card__text"></h2>
-          <button type="button" class="card__icon-like"></button>
+          <div class="card__container-like">
+            <button type="button" class="card__icon-like"></button>
+            <div class="card__counter-like">
+              0
+            </div>
+            </div>
+          </div>
         </figcaption>
       </figure>
     </template>
