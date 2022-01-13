@@ -16,7 +16,6 @@ import Popup from '../components/Popup.js';
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
   token: '00d03ff0-290d-430c-82a1-6d959f58942a',
-  // _id: cardElement._id
 });
 
 // api.getInitialCards()
@@ -40,59 +39,58 @@ const api = new Api({
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([userData, items]) => {
     profileUserInfo.setUserInfo(userData)
-    // console.log('данные с сервера', userData)
-    cardList.renderItem(items);
+    cardList.renderItem(items, userData);
   })
+
 
 // Создаем экземпляр попапа с формой подтверждения
 const сonfirmForm = new PopupWithСonfirm(
   '.popup_type_confirm',
-  function deleteCard(cardElement) { //(()=>{})
-    api.deleteCard(cardElement)
-    .then(result => cardElement.deleteCard(result))
+  function deleteCard(item) { //(()=>{})
+    api.deleteCard(item)
+    .then(result => item.deleteCard(result))
   }
   )
 сonfirmForm.setEventListeners();
 
+
+
+
+
+
 // Функция создания карточки
-const createCard = (item) => {
+const createCard = (item, userData) => {
   const cardElement = new Card(
     item,
     '.template-card',
     hanldeOpenImageForm,
     handleOpenConfirmForm,
-    function handleCardDelete(card) {
+
+    function handleCardDelete(item) {
       сonfirmForm.setSubmitHandler(function deleteCard() { //(()=>{})
-        api.deleteCard(card)
+        api.deleteCard(item)
         .then(result => cardElement.deleteCard(result))
       });
-    }
-    );
+    },
+
+    userData
+  );
   return cardElement.createCard(); // отрисовываем карточку
 }
 
-// // Функция создания карточки
-// const createCard = (item) => {
-//   const cardElement = new Card(
-//     item,
-//     '.template-card',
-//     hanldeOpenImageForm,
-//     handleOpenConfirmForm,
-//     function handleCardDelete(card) {
-//       сonfirmForm.setSubmitHandler(function deleteCard() { //(()=>{})
-//         api.deleteCard(card)
-//         .then(result => cardElement.deleteCard(result))
-//       });
-//     }
-//     );
-//   return cardElement.createCard(); // отрисовываем карточку
+
+// function getUserDataId() {
+//   Promise.all([api.getUserData(), api.getInitialCards()])
+//   .then(([userData, items]) => userData._id)
 // }
+// console.log('id текущего пользователя', getUserDataId())
+
 
 
 // Создаем экземпляр контейнера для карточек
 const cardList = new Section({
-  renderer: (item) => {
-    cardList.addItem(createCard(item));
+  renderer: (item, userData) => {
+    cardList.addItem(createCard(item, userData));
   }
 }, gallerySelector)
 
@@ -102,15 +100,10 @@ const formAdd = new PopupWithForm(
   '.popup_type_add',
 
     function hanldeNewCardFormSubmit(data) {
-      console.log('данные формы добавления:', data)
-      // api.createNewCard({
-      //   data,
-      //   user: profileUserInfo.getUserInfo()
-      // })
-      api.createNewCard(data)
+      api.createNewCard(
+        {data,
+        userData: profileUserInfo.getUserInfo()._id})
       .then(result => cardList.addItem(createCard(result)))
-      // .then(result => console.log((result)))
-      // console.log(data)
     }
 
 )
@@ -131,15 +124,9 @@ const formEdit = new PopupWithForm(
 formEdit.setEventListeners();
 
 
-
-
 // Создаем экземпляр попапа просмотра картинки
 const imageViewPopup = new PopupWithImage('.popup_type_img');
 imageViewPopup.setEventListeners();
-
-
-
-
 
 
 // Создаем объект и экземпляр класса с данными пользователя
@@ -180,12 +167,6 @@ function openAddPopup() {
 openAddPopupButton.addEventListener('click', openAddPopup);
 
 
-// // Обработчик «отправки» формы для редактирования профиля
-// function hanldeEditFormSubmit(data) {
-
-//   profileUserInfo.setUserInfo(data);
-// }
-
 // Обработчик формы для просмотра картинки
 function hanldeOpenImageForm(data) {
 
@@ -200,12 +181,6 @@ function handleOpenConfirmForm() {
   сonfirmForm.open();
 }
 
-// // Запускаем обработчик «отправки» формы для добавления новых карточек
-// function hanldeNewCardFormSubmit(data) {
-
-//   const newCardItem = createCard(data); // вызываем функцию создания карточки и сохраняем результат в переменную
-//   cardList.addItem(newCardItem); // добавляем контейнер с карточкой на страницу
-// };
 
 const editPopupValidator = new FormValidator(settingsObjectMesto, editPopup);
 editPopupValidator.enableValidation();

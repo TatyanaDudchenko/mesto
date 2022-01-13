@@ -2,7 +2,6 @@ class Api {
   constructor({baseUrl, token}) {
     this.baseUrl = baseUrl;
     this.token = token;
-    // this._id = _id;
   }
 
   _handleResult() {
@@ -76,7 +75,8 @@ class Api {
     },
     body: JSON.stringify({
       name: data.name,
-      link: data.link
+      link: data.link,
+      userData: data._id
     })
   })
     .then(result => {
@@ -90,15 +90,15 @@ class Api {
   }
 
   // метод для удаления карточки
-  deleteCard(card) {
-    return fetch(`${this.baseUrl}/cards/${this._id}`, {
+  deleteCard(item) {
+    return fetch(`${this.baseUrl}/cards/${item._id}`, {
     method: 'DELETE',
     headers: {
       authorization: `${this.token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      _id: card._id,
+      _id: item._id,
     })
   })
     .then(result => {

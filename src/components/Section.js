@@ -4,12 +4,12 @@ class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  renderItem(items) {
+  renderItem(items, userData) {
 
     const reversedItems = items.reverse();
 
     reversedItems.forEach((item) => {
-      this._renderer(item);
+      this._renderer(item, userData);
     });
   }
 

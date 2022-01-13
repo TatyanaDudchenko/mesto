@@ -8,13 +8,18 @@ const settingsObjectCard = {
 }
 
 class Card {
-  constructor(cardData, templateSelector, handleCardClick, handleTrashButtonClick, handleCardDelete) {
-    this._title = cardData.name;
-    this._image = cardData.link;
+  constructor(cardData, templateSelector, handleCardClick, handleTrashButtonClick, handleCardDelete, userData) {
+    this._item = cardData;
+    this._title = this._item.name;
+    this._image = this._item.link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._handleTrashButtonClick = handleTrashButtonClick;
     this._handleCardDelete = handleCardDelete;
+    this._userDataId = userData._id;
+    this._ownerId = cardData.owner._id;
+    this._itemId = cardData._id
+
   }
 
   _getTemplate(settingsObject) {
@@ -44,13 +49,14 @@ class Card {
     });
 
     // Выбираем в карточке элемент кнопка Урна
-    // Слушатель кнопки Урна
     this._trashButton = this._item.querySelector(settingsObject.trashButtonSelector);
-    this._trashButton.addEventListener('click', () => {
-      this._handleTrashButtonClick() //открыли попап с формой подтверждения
-      // this._handleCardDelete()
-      // this._handleTrashButton()
-    });
+    // проверяем, есть ли на карточке элемент иконки удаления
+    if (this._trashButton) {
+      // Слушатель кнопки Урна
+      this._trashButton.addEventListener('click', () => {
+        this._handleTrashButtonClick(this._itemId) //открыли попап с формой подтверждения
+      });
+    }
 
   }
 
@@ -69,12 +75,12 @@ class Card {
 
   // Метод-обработчик кнопки Урна
   _handleTrashButton() {
-    // this._item.remove();
-    this._handleCardDelete()
+    this._item.remove(this._itemId);
+    this._handleCardDelete(this._itemId)
   }
 
   deleteCard() {
-    this._handleTrashButton()
+    this._handleTrashButton(this._itemId); // передаем в функцию удаления карточки результат метода удаления карточки
   }
 
   createCard() {
@@ -89,7 +95,16 @@ class Card {
     this._item.querySelector(settingsObjectCard.cardTitleSelector).textContent = this._title;
     this._cardImage.alt = this._title;
 
+
+    // проверяем совпадают ли id пользователей, если нет, то убираем кнопку Урна с карточки
+    if (this._ownerId !== this._userDataId) {
+      this._trashButton.remove();
+      this._trashButton = null;
+    }
+
     return this._item;
+
+
   }
 
 }

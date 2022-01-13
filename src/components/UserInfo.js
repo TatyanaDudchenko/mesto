@@ -7,7 +7,8 @@ class UserInfo {
   getUserInfo() {
     const userData = {
       name: this._name,
-      about: this._about
+      about: this._about,
+      _id: this._id
     }
 
     return userData;
@@ -18,6 +19,7 @@ class UserInfo {
   if (userData) {
       this._name = userData.name;
       this._about = userData.about;
+      this._id = userData._id;
       // this._profileName.textContent = this._name;
       // this._profileJob.textContent = this._about;
       this._renderUserInfo();

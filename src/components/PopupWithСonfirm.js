@@ -6,7 +6,7 @@ class PopupWithСonfirm extends PopupWithForm {
   }
 
   setSubmitHandler(functionDeleteCard) {
-    this._submit = functionDeleteCard;
+    this.hanldeFormSubmit = functionDeleteCard;
   }
 
 }
