@@ -1,24 +1,28 @@
+import Api from "./Api";
+
 const settingsObjectCard = {
   cardSelector: '.card',
   likeButtonSelector: '.card__icon-like',
   trashButtonSelector: '.card__icon-trash',
   likeButtonActiveClass: 'card__icon-like_active',
   cardImageSelector: '.card__image',
-  cardTitleSelector: '.card__text'
+  cardTitleSelector: '.card__text',
+  likeSelector: '.card__counter-like'
 }
 
 class Card {
-  constructor(cardData, templateSelector, handleCardClick, handleTrashButtonClick, handleCardDelete, userData) {
+  constructor(cardData, templateSelector, handleCardClick, handleCardDelete, handlePutLike, handleDeleteLike, userData) {
     this._item = cardData;
-    this._title = this._item.name;
-    this._image = this._item.link;
+    this._title = cardData.name;
+    this._image = cardData.link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    this._handleTrashButtonClick = handleTrashButtonClick;
     this._handleCardDelete = handleCardDelete;
-    this._userDataId = userData._id;
-    this._ownerId = cardData.owner._id;
-    this._itemId = cardData._id
+    this._handlePutLike = handlePutLike;
+    this._handleDeleteLike = handleDeleteLike;
+    this._userDataId = userData._id; // id текущего пользователя
+    this._ownerId = cardData.owner._id; // id владельца карточки
+    this._itemId = cardData._id // id карточки
 
   }
 
@@ -45,7 +49,7 @@ class Card {
     // Слушатель кнопки Лайк
     this._likeButton = this._item.querySelector(settingsObject.likeButtonSelector);
     this._likeButton.addEventListener('click', () => {
-      this._handleLikeButton()
+      this._handleLikeButton(this._itemId)
     });
 
     // Выбираем в карточке элемент кнопка Урна
@@ -54,7 +58,7 @@ class Card {
     if (this._trashButton) {
       // Слушатель кнопки Урна
       this._trashButton.addEventListener('click', () => {
-        this._handleTrashButtonClick(this._itemId) //открыли попап с формой подтверждения
+        this._handleCardDelete(this._itemId) //вызвали обработчик, открывющий форму подтверждения и удаляющий карточку при сабмите формы
       });
     }
 
@@ -68,19 +72,41 @@ class Card {
     });
   }
 
+  _toggleLike() {
+    this._likeButton.classList.toggle(settingsObjectCard.likeButtonActiveClass);
+  }
+
   // Метод-обработчик кнопки Лайк
   _handleLikeButton() {
-    this._likeButton.classList.toggle(settingsObjectCard.likeButtonActiveClass);
+
+    // выбираем нужный обработчик лайка
+    if (this._likeButton.classList.contains(settingsObjectCard.likeButtonActiveClass)) {
+      this._handleDeleteLike(this._itemId) // обработчик удаления лайка, содержащий Api запрос
+      this._toggleLike();
+    } else {
+      this._handlePutLike(this._itemId) // обработчик постановки лайка, содержащий Api запрос
+      this._toggleLike();
+    }
+  }
+
+  likesCounter(arrayLikesLength) {
+    this._counter = arrayLikesLength;
+
+    this._renderLikes(this._counter);
+  }
+
+  renderLikes() {
+    this._likes = document.querySelector(settingsObjectCard.likeSelector);
+    this._likes.textContent = this._counter;
   }
 
   // Метод-обработчик кнопки Урна
   _handleTrashButton() {
     this._item.remove(this._itemId);
-    this._handleCardDelete(this._itemId)
   }
 
   deleteCard() {
-    this._handleTrashButton(this._itemId); // передаем в функцию удаления карточки результат метода удаления карточки
+    this._handleTrashButton(this._itemId); // вызываем метод удаления карточки
   }
 
   createCard() {

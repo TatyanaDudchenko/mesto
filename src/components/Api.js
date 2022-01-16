@@ -76,7 +76,6 @@ class Api {
     body: JSON.stringify({
       name: data.name,
       link: data.link,
-      userData: data._id
     })
   })
     .then(result => {
@@ -90,15 +89,15 @@ class Api {
   }
 
   // метод для удаления карточки
-  deleteCard(item) {
-    return fetch(`${this.baseUrl}/cards/${item._id}`, {
+  deleteCard(itemId) {
+    return fetch(`${this.baseUrl}/cards/${itemId}`, {
     method: 'DELETE',
     headers: {
       authorization: `${this.token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      _id: item._id,
+      _id: itemId,
     })
   })
     .then(result => {
@@ -110,6 +109,73 @@ class Api {
     })
 
   }
+
+  // метод для постановки лайка
+  putLike(itemId) {
+    return fetch(`${this.baseUrl}/cards/${itemId}/likes`, {
+    method: 'PUT',
+    headers: {
+      authorization: `${this.token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      likes: [],
+    })
+  })
+    .then(result => {
+      if (result.ok) {
+        return result.json;
+      }
+
+      return Promise.reject(`Ошибка при постановке лайка: ${result.status}`);
+    })
+
+  }
+
+  // метод для удаления лайка
+  deleteLike(itemId) {
+    return fetch(`${this.baseUrl}/cards/${itemId}/likes`, {
+    method: 'DELETE',
+    headers: {
+      authorization: `${this.token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      likes: [],
+    })
+  })
+    .then(result => {
+      if (result.ok) {
+        return result.json;
+      }
+
+      return Promise.reject(`Ошибка при удалении лайка: ${result.status}`);
+    })
+
+  }
+
+    // метод для удаления лайка
+    getLike(item) {
+      return fetch(`${this.baseUrl}/cards/${item._id}/likes`, {
+      method: 'GET',
+      headers: {
+        authorization: `${this.token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        likes: [],
+      })
+    })
+      .then(result => {
+        if (result.ok) {
+          return result.json;
+        }
+
+        return Promise.reject(`Ошибка при получении информации о лайках: ${result.status}`);
+      })
+
+    }
+
 
 
 }

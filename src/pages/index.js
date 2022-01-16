@@ -36,61 +36,67 @@ const api = new Api({
 //     console.log('ОШИБКА:', err);
 //   });
 
+let currentUserData;
+
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([userData, items]) => {
     profileUserInfo.setUserInfo(userData)
     cardList.renderItem(items, userData);
+    currentUserData = userData;
   })
 
 
 // Создаем экземпляр попапа с формой подтверждения
-const сonfirmForm = new PopupWithСonfirm(
+const confirmForm = new PopupWithСonfirm(
   '.popup_type_confirm',
   function deleteCard(item) { //(()=>{})
     api.deleteCard(item)
     .then(result => item.deleteCard(result))
   }
   )
-сonfirmForm.setEventListeners();
-
-
-
-
+confirmForm.setEventListeners();
 
 
 // Функция создания карточки
-const createCard = (item, userData) => {
+const createCard = (item, currentUserData) => {
   const cardElement = new Card(
     item,
     '.template-card',
     hanldeOpenImageForm,
-    handleOpenConfirmForm,
 
-    function handleCardDelete(item) {
-      сonfirmForm.setSubmitHandler(function deleteCard() { //(()=>{})
-        api.deleteCard(item)
+    function handleCardDelete(itemId) {
+      confirmForm.open();
+      confirmForm.setSubmitHandler(function deleteCard() { //(()=>{})
+        api.deleteCard(itemId)
         .then(result => cardElement.deleteCard(result))
       });
     },
 
-    userData
+    function handlePutLike(itemId) {
+      api.putLike(itemId)
+      .then(result => cardElement.likesCounter(getLikeCounter(item)))
+    },
+
+    function handleDeleteLike(itemId) {
+      api.deleteLike(itemId)
+      .then(result => cardElement.likesCounter(getLikeCounter(item)))
+    },
+
+    currentUserData
   );
   return cardElement.createCard(); // отрисовываем карточку
 }
 
-
-// function getUserDataId() {
-//   Promise.all([api.getUserData(), api.getInitialCards()])
-//   .then(([userData, items]) => userData._id)
-// }
-// console.log('id текущего пользователя', getUserDataId())
-
+function getLikeCounter(cardElement) {
+  api.getLike(cardElement)
+  .then(result => { return result.likes.length })
+}
 
 
 // Создаем экземпляр контейнера для карточек
 const cardList = new Section({
-  renderer: (item, userData) => {
-    cardList.addItem(createCard(item, userData));
+  renderer: (item, currentUserData) => {
+    cardList.addItem(createCard(item, currentUserData));
   }
 }, gallerySelector)
 
@@ -100,10 +106,8 @@ const formAdd = new PopupWithForm(
   '.popup_type_add',
 
     function hanldeNewCardFormSubmit(data) {
-      api.createNewCard(
-        {data,
-        userData: profileUserInfo.getUserInfo()._id})
-      .then(result => cardList.addItem(createCard(result)))
+      api.createNewCard(data)
+      .then(result => cardList.addItem(createCard(result, currentUserData)))
     }
 
 )
@@ -173,14 +177,6 @@ function hanldeOpenImageForm(data) {
   //Вызываем функцию открытия попапа Просмотр картинки
   imageViewPopup.open(data);
 }
-
-// Обработчик открытия попапа подтверждения
-function handleOpenConfirmForm() {
-
-  //Вызываем функцию открытия формы подтверждения
-  сonfirmForm.open();
-}
-
 
 const editPopupValidator = new FormValidator(settingsObjectMesto, editPopup);
 editPopupValidator.enableValidation();

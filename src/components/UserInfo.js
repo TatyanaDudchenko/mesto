@@ -20,8 +20,6 @@ class UserInfo {
       this._name = userData.name;
       this._about = userData.about;
       this._id = userData._id;
-      // this._profileName.textContent = this._name;
-      // this._profileJob.textContent = this._about;
       this._renderUserInfo();
     }
 
