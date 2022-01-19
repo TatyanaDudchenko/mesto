@@ -14,7 +14,11 @@
 
       <section class="profile-container">
         <article class="profile">
-          <img class="profile__avatar" src="<%=require('./images/avatar-kusto.png')%>" alt="Аватар">
+          <div class="profile__hover-effect-container">
+            <img class="profile__avatar" src="<%=require('./images/avatar-kusto.png')%>" alt="Аватар">
+            <button type="submit" class="profile__button-edit-avatar">
+            </button>
+          </div>
           <div class="profile__info-container">
             <div class="profile__info-group">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -77,6 +81,20 @@
         <h3 class="popup__title">Вы уверены?</h3>
         <form name="confirmForm" class="popup__form" novalidate>
           <button type="submit" value="Да" class="popup__button">Да</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="popup popup_type_edit-avatar">
+      <div class="popup__container popup__container_size_m">
+        <button type="button" class="popup__icon-close"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form name="editAvatarForm" class="popup__form" novalidate>
+          <label class="popup__form-field">
+            <input type="url" placeholder="Ссылка на картинку" name="link" class="popup__input popup__input_link" id="link-input" value="" required>
+            <span class="link-input-error popup__input-error"></span>
+          </label>
+          <button type="submit" value="Сохранить" class="popup__button">Сохранить</button>
         </form>
       </div>
     </div>

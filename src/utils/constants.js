@@ -44,10 +44,12 @@ export const gallerySelector = '.gallery';
 export const сonfirmPopup = document.querySelector('.popup_type_сonfirm');
 export const editPopup = document.querySelector('.popup_type_edit');
 export const addPopup = document.querySelector('.popup_type_add');
+export const editAvatarPopup = document.querySelector('.popup_type_edit-avatar');
 
 // Выбираем кнопки открытия попапов
 export const openEditPopupButton = document.querySelector('.profile__button-edit');
 export const openAddPopupButton = document.querySelector('.profile-container__button-add');
+export const openEditAvatarPopupButton = document.querySelector('.profile__button-edit-avatar');
 
 // Выбираем элемент Форма редактирования
 const formEditPopup = editPopup.querySelector('.popup__container');

@@ -102,7 +102,7 @@ class Api {
   })
     .then(result => {
       if (result.ok) {
-        return result.json;
+        return result.json();
       }
 
       return Promise.reject(`Ошибка при удалении карточки: ${result.status}`);
@@ -119,12 +119,12 @@ class Api {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      likes: [],
+      _id: itemId,
     })
   })
     .then(result => {
       if (result.ok) {
-        return result.json;
+        return result.json();
       }
 
       return Promise.reject(`Ошибка при постановке лайка: ${result.status}`);
@@ -141,12 +141,12 @@ class Api {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      likes: [],
+      _id: itemId,
     })
   })
     .then(result => {
       if (result.ok) {
-        return result.json;
+        return result.json();
       }
 
       return Promise.reject(`Ошибка при удалении лайка: ${result.status}`);
@@ -154,28 +154,27 @@ class Api {
 
   }
 
-    // метод для удаления лайка
-    getLike(item) {
-      return fetch(`${this.baseUrl}/cards/${item._id}/likes`, {
-      method: 'GET',
-      headers: {
-        authorization: `${this.token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        likes: [],
-      })
+   // метод для обновления аватара пользователя
+   updatedAvatar(link) {
+    return fetch(`${this.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: {
+      authorization: `${this.token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      avatar: link
     })
-      .then(result => {
-        if (result.ok) {
-          return result.json;
-        }
+  })
+    .then(result => {
+      if (result.ok) {
+        return result.json();
+      }
 
-        return Promise.reject(`Ошибка при получении информации о лайках: ${result.status}`);
-      })
+      return Promise.reject(`Ошибка при обновлении аватара пользователя: ${result.status}`);
+    })
 
-    }
-
+  }
 
 
 }

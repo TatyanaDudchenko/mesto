@@ -14,4 +14,7 @@
 
 .card__icon-like:hover {
   opacity: 0.5;
+  background-image: url(../../../images/icon-like-active.svg);
+
+
 }

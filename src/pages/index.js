@@ -8,7 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithСonfirm from '../components/PopupWithСonfirm.js';
 import UserInfo from '../components/UserInfo.js';
 
-import { initialCards, settingsObjectMesto, gallerySelector, сonfirmPopup, editPopup, addPopup, openEditPopupButton, openAddPopupButton, nameInput, jobInput, profileName, profileJob, titleInput, linkInput } from '../utils/constants';
+import { initialCards, settingsObjectMesto, gallerySelector, сonfirmPopup, editPopup, addPopup, editAvatarPopup, openEditPopupButton, openAddPopupButton, openEditAvatarPopupButton, nameInput, jobInput, profileName, profileJob, titleInput, linkInput } from '../utils/constants';
 import Popup from '../components/Popup.js';
 
 // _id: '15e91967d697fa5faaec02f2'
@@ -40,7 +40,7 @@ let currentUserData;
 
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([userData, items]) => {
-    profileUserInfo.setUserInfo(userData)
+    profileUserInfo.setUserInfo(userData);
     cardList.renderItem(items, userData);
     currentUserData = userData;
   })
@@ -74,22 +74,17 @@ const createCard = (item, currentUserData) => {
 
     function handlePutLike(itemId) {
       api.putLike(itemId)
-      .then(result => cardElement.likesCounter(getLikeCounter(item)))
+      .then(result => cardElement.likesCounter(result))
     },
 
     function handleDeleteLike(itemId) {
       api.deleteLike(itemId)
-      .then(result => cardElement.likesCounter(getLikeCounter(item)))
+      .then(result => cardElement.likesCounter(result))
     },
 
     currentUserData
   );
   return cardElement.createCard(); // отрисовываем карточку
-}
-
-function getLikeCounter(cardElement) {
-  api.getLike(cardElement)
-  .then(result => { return result.likes.length })
 }
 
 
@@ -115,7 +110,7 @@ formAdd.setEventListeners();
 
 
 
-// Создаем экземпляр попапа с формой редактирования
+// Создаем экземпляр попапа с формой редактирования профиля
 const formEdit = new PopupWithForm(
   '.popup_type_edit',
 
@@ -126,6 +121,18 @@ const formEdit = new PopupWithForm(
 
 )
 formEdit.setEventListeners();
+
+// Создаем экземпляр попапа с формой редактирования аватара
+const formEditAvatar = new PopupWithForm(
+  '.popup_type_edit-avatar',
+
+    function hanldeEditAvatarFormSubmit(data) {
+      api.updatedAvatar(data)
+      // .then(result => cardList.addItem(createCard(result, currentUserData)))
+    }
+
+)
+formEditAvatar.setEventListeners();
 
 
 // Создаем экземпляр попапа просмотра картинки
@@ -171,6 +178,18 @@ function openAddPopup() {
 openAddPopupButton.addEventListener('click', openAddPopup);
 
 
+// Объявляем функцию открытия попапа редактирования аватара
+function openEditAvatarPopup() {
+
+  // Предварительно очищаем ошибки валидации и деактивируем кнопку отправки формы
+  editAvatarPopupValidator.resetValidation();
+  // Открываем попап
+  formEditAvatar.open();
+};
+// Передаем в обработчик ссылку на функцию открытия попапа добавления по клику кнопки Редактировать аватар
+openEditAvatarPopupButton.addEventListener('click', openEditAvatarPopup);
+
+
 // Обработчик формы для просмотра картинки
 function hanldeOpenImageForm(data) {
 
@@ -183,3 +202,6 @@ editPopupValidator.enableValidation();
 
 const addPopupValidator = new FormValidator(settingsObjectMesto, addPopup);
 addPopupValidator.enableValidation();
+
+const editAvatarPopupValidator = new FormValidator(settingsObjectMesto, editAvatarPopup);
+editAvatarPopupValidator.enableValidation();
