@@ -8,39 +8,20 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithСonfirm from '../components/PopupWithСonfirm.js';
 import UserInfo from '../components/UserInfo.js';
 
-import { initialCards, settingsObjectMesto, gallerySelector, сonfirmPopup, editPopup, addPopup, editAvatarPopup, openEditPopupButton, openAddPopupButton, openEditAvatarPopupButton, nameInput, jobInput, profileName, profileJob, titleInput, linkInput } from '../utils/constants';
-import Popup from '../components/Popup.js';
+import { settingsObjectMesto, gallerySelector, editPopup, addPopup, editAvatarPopup, openEditPopupButton, openAddPopupButton, openEditAvatarPopupButton, nameInput, jobInput } from '../utils/constants';
 
-// _id: '15e91967d697fa5faaec02f2'
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
   token: '00d03ff0-290d-430c-82a1-6d959f58942a',
 });
 
-// api.getInitialCards()
-//   .then((result) => { // items
-//     cardList.renderItem(result); // items
-//     })
-
-//   .catch((err) => {
-//     console.log('ОШИБКА:', err);
-//   });
-
-// api.getUserData()
-//   .then((result) => { // data
-//     profileUserInfo.setUserInfo(result); // data
-//     })
-
-//   .catch((err) => {
-//     console.log('ОШИБКА:', err);
-//   });
-
 let currentUserData;
 
 Promise.all([api.getUserData(), api.getInitialCards()])
   .then(([userData, items]) => {
     profileUserInfo.setUserInfo(userData);
+    profileUserInfo.setAvatar(userData);
     cardList.renderItem(items, userData);
     currentUserData = userData;
   })
@@ -49,7 +30,7 @@ Promise.all([api.getUserData(), api.getInitialCards()])
 // Создаем экземпляр попапа с формой подтверждения
 const confirmForm = new PopupWithСonfirm(
   '.popup_type_confirm',
-  function deleteCard(item) { //(()=>{})
+  function deleteCard(item) {
     api.deleteCard(item)
     .then(result => item.deleteCard(result))
   }
@@ -66,7 +47,7 @@ const createCard = (item, currentUserData) => {
 
     function handleCardDelete(itemId) {
       confirmForm.open();
-      confirmForm.setSubmitHandler(function deleteCard() { //(()=>{})
+      confirmForm.setSubmitHandler(function deleteCard() {
         api.deleteCard(itemId)
         .then(result => cardElement.deleteCard(result))
       });
@@ -101,8 +82,10 @@ const formAdd = new PopupWithForm(
   '.popup_type_add',
 
     function hanldeNewCardFormSubmit(data) {
+      formAdd.loading('Сохранение...')
       api.createNewCard(data)
       .then(result => cardList.addItem(createCard(result, currentUserData)))
+      .finally(() => formAdd.loading('Сохранить'))
     }
 
 )
@@ -115,8 +98,10 @@ const formEdit = new PopupWithForm(
   '.popup_type_edit',
 
     function hanldeEditFormSubmit(userData) {
+      formEdit.loading('Сохранение...')
       api.editProfile(userData)
       .then(result => profileUserInfo.setUserInfo(result))
+      .finally(() => formEdit.loading('Сохранить'))
     }
 
 )
@@ -126,9 +111,11 @@ formEdit.setEventListeners();
 const formEditAvatar = new PopupWithForm(
   '.popup_type_edit-avatar',
 
-    function hanldeEditAvatarFormSubmit(data) {
-      api.updatedAvatar(data)
-      // .then(result => cardList.addItem(createCard(result, currentUserData)))
+    function hanldeEditAvatarFormSubmit(avatarData) {
+      formEditAvatar.loading('Сохранение...')
+      api.updatedAvatar(avatarData)
+      .then(result => profileUserInfo.setAvatar(result))
+      .finally(() => formEditAvatar.loading('Сохранить'))
     }
 
 )
@@ -143,7 +130,8 @@ imageViewPopup.setEventListeners();
 // Создаем объект и экземпляр класса с данными пользователя
 const configUserInfo = {
   nameItemSelector: '.profile__name',
-  jobItemSelector: '.profile__job'
+  jobItemSelector: '.profile__job',
+  avatarItemSelector: '.profile__avatar'
 }
 const profileUserInfo = new UserInfo(configUserInfo);
 

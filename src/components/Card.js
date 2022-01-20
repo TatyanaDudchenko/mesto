@@ -104,36 +104,9 @@ class Card {
     this._arrayLikes = updatedCardData.likes;
   }
 
-
-  // _likeButtonInitialView(updatedCardData) {
-
-  //   this._updatedCardData = updatedCardData.likes;
-
-
-  //   const data = this._updatedCardData.find(
-  //     function likesOwner(carrentValue) {
-  //       carrentValue = this._userDataId
-  //     }
-  //   )
-  //   return data
-
-  // }
-
-  // _renderLikeButtonInitialView(data) {
-  //   this._likeButton = this._item.querySelector(settingsObjectCard.likeButtonSelector);
-
-  //   if (data) {
-  //     this._likeButton.classList.add(settingsObjectCard.likeButtonActiveClass);
-  //   } else {
-  //     this._likeButton.classList.remove(settingsObjectCard.likeButtonActiveClass);
-  //   }
-  // }
-
-
   _renderInitialLikes() {
     this._item.querySelector(settingsObjectCard.likeSelector).textContent = this._arrayLikesLength;
   }
-
 
   // Метод-обработчик кнопки Урна
   _handleTrashButton() {
@@ -163,14 +136,13 @@ class Card {
       this._trashButton = null;
     }
 
+    // окрашиваем лайки в черный цвет только на своих карточках
     const data = this._arrayLikes.find(({_id}) => _id === this._userDataId);
     if (data) {
       this._likeButton.classList.add(settingsObjectCard.likeButtonActiveClass);
     } else {
       this._likeButton.classList.remove(settingsObjectCard.likeButtonActiveClass);
     }
-
-    // this._renderLikeButtonInitialView();
 
     return this._item;
 

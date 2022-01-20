@@ -155,7 +155,7 @@ class Api {
   }
 
    // метод для обновления аватара пользователя
-   updatedAvatar(link) {
+   updatedAvatar(avatarData) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
     method: 'PATCH',
     headers: {
@@ -163,7 +163,7 @@ class Api {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      avatar: link
+      avatar: avatarData.link
     })
   })
     .then(result => {
