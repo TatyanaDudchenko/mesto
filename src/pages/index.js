@@ -8,7 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithСonfirm from '../components/PopupWithСonfirm.js';
 import UserInfo from '../components/UserInfo.js';
 
-import { settingsObjectMesto, gallerySelector, editPopup, addPopup, editAvatarPopup, openEditPopupButton, openAddPopupButton, openEditAvatarPopupButton, nameInput, jobInput } from '../utils/constants';
+import { settingsObjectMesto, settingsObjectCard, configUserInfo, gallerySelector, editPopup, addPopup, editAvatarPopup, openEditPopupButton, openAddPopupButton, openEditAvatarPopupButton, nameInput, jobInput } from '../utils/constants';
 
 
 const api = new Api({
@@ -25,6 +25,9 @@ Promise.all([api.getUserData(), api.getInitialCards()])
     cardList.renderItem(items, userData);
     currentUserData = userData;
   })
+  .catch((err) => {
+    console.log(err);
+  });
 
 
 // Создаем экземпляр попапа с формой подтверждения
@@ -33,6 +36,9 @@ const confirmForm = new PopupWithСonfirm(
   function deleteCard(item) {
     api.deleteCard(item)
     .then(result => item.deleteCard(result))
+    .catch((err) => {
+      console.log(err);
+    });
   }
   )
 confirmForm.setEventListeners();
@@ -41,6 +47,7 @@ confirmForm.setEventListeners();
 // Функция создания карточки
 const createCard = (item, currentUserData) => {
   const cardElement = new Card(
+    settingsObjectCard,
     item,
     '.template-card',
     hanldeOpenImageForm,
@@ -50,17 +57,28 @@ const createCard = (item, currentUserData) => {
       confirmForm.setSubmitHandler(function deleteCard() {
         api.deleteCard(itemId)
         .then(result => cardElement.deleteCard(result))
+        .catch((err) => {
+          console.log(err);
+        });
       });
     },
 
     function handlePutLike(itemId) {
       api.putLike(itemId)
       .then(result => cardElement.likesCounter(result))
+      .then(() => cardElement.toggleLike())
+      .catch((err) => {
+        console.log(err);
+      });
     },
 
     function handleDeleteLike(itemId) {
       api.deleteLike(itemId)
       .then(result => cardElement.likesCounter(result))
+      .then(() => cardElement.toggleLike())
+      .catch((err) => {
+        console.log(err);
+      });
     },
 
     currentUserData
@@ -85,6 +103,9 @@ const formAdd = new PopupWithForm(
       formAdd.loading('Сохранение...')
       api.createNewCard(data)
       .then(result => cardList.addItem(createCard(result, currentUserData)))
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => formAdd.loading('Сохранить'))
     }
 
@@ -101,6 +122,9 @@ const formEdit = new PopupWithForm(
       formEdit.loading('Сохранение...')
       api.editProfile(userData)
       .then(result => profileUserInfo.setUserInfo(result))
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => formEdit.loading('Сохранить'))
     }
 
@@ -115,6 +139,9 @@ const formEditAvatar = new PopupWithForm(
       formEditAvatar.loading('Сохранение...')
       api.updatedAvatar(avatarData)
       .then(result => profileUserInfo.setAvatar(result))
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => formEditAvatar.loading('Сохранить'))
     }
 
@@ -127,12 +154,6 @@ const imageViewPopup = new PopupWithImage('.popup_type_img');
 imageViewPopup.setEventListeners();
 
 
-// Создаем объект и экземпляр класса с данными пользователя
-const configUserInfo = {
-  nameItemSelector: '.profile__name',
-  jobItemSelector: '.profile__job',
-  avatarItemSelector: '.profile__avatar'
-}
 const profileUserInfo = new UserInfo(configUserInfo);
 
 

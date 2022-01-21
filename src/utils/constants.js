@@ -8,6 +8,23 @@ export const settingsObjectMesto = {
   errorClass: 'popup__error_visible'
 };
 
+export const settingsObjectCard = {
+  cardSelector: '.card',
+  likeButtonSelector: '.card__icon-like',
+  trashButtonSelector: '.card__icon-trash',
+  likeButtonActiveClass: 'card__icon-like_active',
+  cardImageSelector: '.card__image',
+  cardTitleSelector: '.card__text',
+  likeSelector: '.card__counter-like'
+}
+
+// Создаем объект и экземпляр класса с данными пользователя
+export const configUserInfo = {
+  nameItemSelector: '.profile__name',
+  jobItemSelector: '.profile__job',
+  avatarItemSelector: '.profile__avatar'
+}
+
 // Выбираем в документе галерею, которая будет заполняться карточками
 export const gallerySelector = '.gallery';
 

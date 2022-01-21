@@ -4,8 +4,12 @@ class Api {
     this.token = token;
   }
 
-  _handleResult() {
+  _checkResponse(result) {
+    if (result.ok) {
+      return result.json();
+    }
 
+    return Promise.reject(`Ошибка ${result.status}`);
   }
 
   // метод для загрузки информации о пользователе с сервера
@@ -15,13 +19,7 @@ class Api {
       authorization: `${this.token}`,
     }
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при загрузке информации о пользователе: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -32,13 +30,7 @@ class Api {
       authorization: `${this.token}`,
     }
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при загрузке начальных карточек: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -55,13 +47,7 @@ class Api {
       about: data.about
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при редактировании профиля: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -78,13 +64,7 @@ class Api {
       link: data.link,
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при добавлении новой карточки: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -100,13 +80,7 @@ class Api {
       _id: itemId,
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при удалении карточки: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -122,13 +96,7 @@ class Api {
       _id: itemId,
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при постановке лайка: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -144,13 +112,7 @@ class Api {
       _id: itemId,
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при удалении лайка: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 
@@ -166,13 +128,7 @@ class Api {
       avatar: avatarData.link
     })
   })
-    .then(result => {
-      if (result.ok) {
-        return result.json();
-      }
-
-      return Promise.reject(`Ошибка при обновлении аватара пользователя: ${result.status}`);
-    })
+    .then(this._checkResponse)
 
   }
 

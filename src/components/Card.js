@@ -1,15 +1,6 @@
-const settingsObjectCard = {
-  cardSelector: '.card',
-  likeButtonSelector: '.card__icon-like',
-  trashButtonSelector: '.card__icon-trash',
-  likeButtonActiveClass: 'card__icon-like_active',
-  cardImageSelector: '.card__image',
-  cardTitleSelector: '.card__text',
-  likeSelector: '.card__counter-like'
-}
-
 class Card {
-  constructor(cardData, templateSelector, handleCardClick, handleCardDelete, handlePutLike, handleDeleteLike, userData) {
+  constructor(settingsObject, cardData, templateSelector, handleCardClick, handleCardDelete, handlePutLike, handleDeleteLike, userData) {
+    this._settingsObject = settingsObject;
     this._item = cardData;
     this._title = cardData.name;
     this._image = cardData.link;
@@ -25,34 +16,34 @@ class Card {
     this._likesInitialView(this._item);
   }
 
-  _getTemplate(settingsObject) {
+  _getTemplate() {
     const cardItem = document
     .querySelector(this._templateSelector)
     .content
-    .querySelector(settingsObject.cardSelector)
+    .querySelector(this._settingsObject.cardSelector)
     .cloneNode(true);
 
     return cardItem;
   }
 
-  _setEventListeners(settingsObject) {
+  _setEventListeners() {
 
     // Выбираем в карточке элемент Картинка
     // Cлушатель картинки для открытия попапа просмотра картинки
-    this._cardImage = this._item.querySelector(settingsObject.cardImageSelector);
+    this._cardImage = this._item.querySelector(this._settingsObject.cardImageSelector);
     this._cardImage.addEventListener('click', () => {
       this._handleOpenPopup()
     });
 
     // Выбираем в карточке элемент кнопка Лайк
     // Слушатель кнопки Лайк
-    this._likeButton = this._item.querySelector(settingsObject.likeButtonSelector);
+    this._likeButton = this._item.querySelector(this._settingsObject.likeButtonSelector);
     this._likeButton.addEventListener('click', () => {
       this._handleLikeButton(this._itemId)
     });
 
     // Выбираем в карточке элемент кнопка Урна
-    this._trashButton = this._item.querySelector(settingsObject.trashButtonSelector);
+    this._trashButton = this._item.querySelector(this._settingsObject.trashButtonSelector);
     // проверяем, есть ли на карточке элемент иконки удаления
     if (this._trashButton) {
       // Слушатель кнопки Урна
@@ -71,28 +62,26 @@ class Card {
     });
   }
 
-  _toggleLike() {
-    this._likeButton.classList.toggle(settingsObjectCard.likeButtonActiveClass);
+  toggleLike() {
+    this._likeButton.classList.toggle(this._settingsObject.likeButtonActiveClass);
   }
 
   // Метод-обработчик кнопки Лайк
   _handleLikeButton() {
 
     // выбираем нужный обработчик лайка
-    if (this._likeButton.classList.contains(settingsObjectCard.likeButtonActiveClass)) {
+    if (this._likeButton.classList.contains(this._settingsObject.likeButtonActiveClass)) {
       this._handleDeleteLike(this._itemId) // обработчик удаления лайка, содержащий Api запрос
-      this._toggleLike();
 
     } else {
       this._handlePutLike(this._itemId) // обработчик постановки лайка, содержащий Api запрос
-      this._toggleLike();
 
     }
   }
 
   likesCounter(updatedCardData) {
     this._arrayLikesLength = updatedCardData.likes.length;
-    this._item.querySelector(settingsObjectCard.likeSelector).textContent = this._arrayLikesLength;
+    this._item.querySelector(this._settingsObject.likeSelector).textContent = this._arrayLikesLength;
   }
 
 
@@ -105,7 +94,7 @@ class Card {
   }
 
   _renderInitialLikes() {
-    this._item.querySelector(settingsObjectCard.likeSelector).textContent = this._arrayLikesLength;
+    this._item.querySelector(this._settingsObject.likeSelector).textContent = this._arrayLikesLength;
   }
 
   // Метод-обработчик кнопки Урна
@@ -119,12 +108,12 @@ class Card {
 
   createCard() {
 
-    this._item = this._getTemplate(settingsObjectCard);
-    this._setEventListeners(settingsObjectCard);
+    this._item = this._getTemplate();
+    this._setEventListeners();
 
 
     this._cardImage.src = this._image;
-    this._item.querySelector(settingsObjectCard.cardTitleSelector).textContent = this._title;
+    this._item.querySelector(this._settingsObject.cardTitleSelector).textContent = this._title;
     this._cardImage.alt = this._title;
 
     this._renderInitialLikes();
@@ -139,9 +128,9 @@ class Card {
     // окрашиваем лайки в черный цвет только на своих карточках
     const data = this._arrayLikes.find(({_id}) => _id === this._userDataId);
     if (data) {
-      this._likeButton.classList.add(settingsObjectCard.likeButtonActiveClass);
+      this._likeButton.classList.add(this._settingsObject.likeButtonActiveClass);
     } else {
-      this._likeButton.classList.remove(settingsObjectCard.likeButtonActiveClass);
+      this._likeButton.classList.remove(this._settingsObject.likeButtonActiveClass);
     }
 
     return this._item;
