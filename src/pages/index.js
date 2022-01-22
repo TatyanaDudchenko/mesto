@@ -57,6 +57,7 @@ const createCard = (item, currentUserData) => {
       confirmForm.setSubmitHandler(function deleteCard() {
         api.deleteCard(itemId)
         .then(result => cardElement.deleteCard(result))
+        .then(() => confirmForm.close())
         .catch((err) => {
           console.log(err);
         });
@@ -103,6 +104,7 @@ const formAdd = new PopupWithForm(
       formAdd.loading('Сохранение...')
       api.createNewCard(data)
       .then(result => cardList.addItem(createCard(result, currentUserData)))
+      .then(() => formAdd.close())
       .catch((err) => {
         console.log(err);
       })
@@ -122,6 +124,7 @@ const formEdit = new PopupWithForm(
       formEdit.loading('Сохранение...')
       api.editProfile(userData)
       .then(result => profileUserInfo.setUserInfo(result))
+      .then(() => formEdit.close())
       .catch((err) => {
         console.log(err);
       })
@@ -139,6 +142,7 @@ const formEditAvatar = new PopupWithForm(
       formEditAvatar.loading('Сохранение...')
       api.updatedAvatar(avatarData)
       .then(result => profileUserInfo.setAvatar(result))
+      .then(() => formEditAvatar.close())
       .catch((err) => {
         console.log(err);
       })
