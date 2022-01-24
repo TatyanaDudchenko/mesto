@@ -28,7 +28,7 @@
 
 **GitHub Pages**
 
-* [Ссылка на GitHub Pages](https://tatyanagolendukhina.github.io/mesto/index.html)
+* [Ссылка на GitHub Pages](https://tatyanadudchenko.github.io/mesto/)
 
 
 Приятного просмотра и пользования!
