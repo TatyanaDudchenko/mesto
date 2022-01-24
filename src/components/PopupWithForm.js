@@ -40,6 +40,15 @@ class PopupWithForm extends Popup {
     this._submitButton.textContent = submitButtonText;
   }
 
+  // методы, предотвращающие баг - чтобы кнопка submit блокировалась сразк после 1 нажатия (чтобы нельзя было отправить информацию несколько раз)
+  setDisabling() {
+    this._submitButton.setAttribute('disabled', true);
+  }
+
+  removeDisabling() {
+    this._submitButton.removeAttribute('disabled');
+  }
+
 
 }
 export default PopupWithForm;

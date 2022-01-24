@@ -102,13 +102,17 @@ const formAdd = new PopupWithForm(
 
     function hanldeNewCardFormSubmit(data) {
       formAdd.loading('Сохранение...')
+      formAdd.setDisabling() // заблокировали кнопку после 1 нажатия - предотвратили одновременное создание нескольких одинаковых карточек в случае многократного нажаия на сабмит
       api.createNewCard(data)
       .then(result => cardList.addItem(createCard(result, currentUserData)))
       .then(() => formAdd.close())
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => formAdd.loading('Сохранить'))
+      .finally(() => {
+        formAdd.loading('Сохранить');
+        formAdd.removeDisabling()
+      })
     }
 
 )
