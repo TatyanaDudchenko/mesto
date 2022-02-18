@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TatyanaGolendukhina/mesto.git"
+    "url": "git+https://github.com/TatyanaDudchenko/mesto.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TatyanaGolendukhina/mesto/issues"
+    "url": "https://github.com/TatyanaDudchenko/mesto/issues"
   },
-  "homepage": "https://github.com/TatyanaGolendukhina/mesto#readme",
+  "homepage": "https://github.com/TatyanaDudchenko/mesto#readme",
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
